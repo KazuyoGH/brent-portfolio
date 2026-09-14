@@ -52,7 +52,6 @@ effectLayer.style.cssText = `
 `;
 document.body.appendChild(effectLayer);
 
-// ── ADD THIS ──
 const hero = document.getElementById('hero-interactive');
 
 const MAX_ELEMENTS = 60;
@@ -69,7 +68,7 @@ const codeSnippets = [
 const SPAWN_DISTANCE = 25;
 let lastMouseX = 0;
 let lastMouseY = 0;
-let accumulatedDistance = 0;
+let accumulatedDistance = null;
 
 // --- Mouse parallax for "brent feir" ---
 const heroTitle = document.querySelector('#hero-interactive h1');
@@ -100,33 +99,6 @@ document.addEventListener('mousemove', (e) => {
         heroTitle.style.transition = 'transform 0.1s ease-out, filter 0.05s linear';
 
         // Clear blur after 150ms of no movement
-        clearTimeout(motionBlurTimeout);
-        motionBlurTimeout = setTimeout(() => {
-            heroTitle.style.filter = 'blur(0px)';
-            heroTitle.style.transition = 'filter 0.3s ease-out';
-        }, 150);
-    }
-
-    // Add this variable near the top with your other let declarations (after heroTitle)
-    let motionBlurTimeout = null;
-
-    // Then inside document.addEventListener('mousemove', (e) => { ... }), replace this block:
-    if (heroTitle) {
-        const rect = heroTitle.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        const deltaX = (e.clientX - centerX) / (rect.width / 2);
-        const deltaY = (e.clientY - centerY) / (rect.height / 2);
-
-        const rotateY = deltaX * 12;
-        const rotateX = deltaY * -12;
-
-        heroTitle.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        heroTitle.style.filter = `blur(6px)`;       // blur while moving
-        heroTitle.style.transition = 'transform 0.1s ease-out, filter 0.1s ease-out';
-
-        // Clear blur after 150ms of no mouse movement
         clearTimeout(motionBlurTimeout);
         motionBlurTimeout = setTimeout(() => {
             heroTitle.style.filter = 'blur(0px)';
@@ -297,7 +269,7 @@ function initScrollReveal() {
         el.style.opacity = '0';
         el.style.filter = 'blur(8px)';
         el.style.transform = 'translateY(60px)';
-        el.style.transition = `opacity 1.3s cubic-bezier(0.1, 0.9, 0.2, 1), filter 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1)`;
+        el.style.transition = `opacity 2.3s cubic-bezier(0.1, 0.9, 0.2, 1), filter 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1)`;
         el.style.transitionDelay = `${i * 0.1}s`;
     });
 
