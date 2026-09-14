@@ -56,20 +56,29 @@ function spawnGlowOrb(x, y) {
         height: 400px;
         border-radius: 50%;
         background: radial-gradient(circle, ${color}, transparent 70%);
-        filter: blur(80px);
-        opacity: 0.3;
+        opacity: 0.4;
         pointer-events: none;
     `;
     effectLayer.appendChild(orb);
     
-    let opacity = 0.3;
-    const fade = () => {
-        opacity -= 0.01;
-        orb.style.opacity = opacity;
-        if (opacity > 0) requestAnimationFrame(fade);
-        else orb.remove();
+    let opacity = 0.4;
+    let blur = 20; // start with a tighter blur
+    
+    const animate = () => {
+        opacity -= 0.008;
+        blur += 1.2; // gradually increase the blur
+        
+        orb.style.opacity = opacity > 0 ? opacity : 0;
+        orb.style.filter = `blur(${blur}px)`;
+        
+        if (opacity > 0) {
+            requestAnimationFrame(animate);
+        } else {
+            orb.remove();
+        }
     };
-    fade();
+    
+    animate();
 }
 
 function spawnGlitch(x, y) {
