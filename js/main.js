@@ -27,23 +27,42 @@ async function startLoadingSequence() {
 }
 
 // Run immediately
-startLoadingSequence();
+async function startLoadingSequence() {
+    const textEl = document.getElementById('loader-text');
+    const loader = document.getElementById('loader');
+    const sentence = "hey, glad to have you here! my name is..";
 
+    // Set full text immediately
+    textEl.textContent = sentence;
 
-const header = document.querySelector('.site-header');
-const hero = document.getElementById('hero-interactive');
+    // Start state: hidden, blurred, pushed down
+    textEl.style.opacity = '0';
+    textEl.style.filter = 'blur(10px)';
+    textEl.style.transform = 'translateY(40px)';
+    textEl.style.transition = 'opacity 0.8s ease-out, filter 0.8s ease-out, transform 0.8s ease-out';
 
-// Create a full-page container for effects
-const effectLayer = document.createElement('div');
-effectLayer.style.cssText = `
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    pointer-events: none;
-    z-index: 0;
-`;
-document.body.appendChild(effectLayer);
+    // Brief pause before it begins
+    await new Promise(r => setTimeout(r, 400));
+
+    // Animate in: sharpens, fades in, slides up
+    textEl.style.opacity = '1';
+    textEl.style.filter = 'blur(0px)';
+    textEl.style.transform = 'translateY(0)';
+
+    // Let it sit visible for a moment
+    await new Promise(r => setTimeout(r, 2000));
+
+    // Pixelate-out effect
+    loader.style.filter = 'blur(20px) contrast(20)';
+    loader.style.opacity = '0';
+
+    // Remove loader, then reveal page sections
+    setTimeout(() => {
+        loader.remove();
+        initScrollReveal();
+    }, 1000);
+}
+
 
 const MAX_ELEMENTS = 60;
 
