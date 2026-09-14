@@ -1,0 +1,213 @@
+/* Reset & Variables */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-color: #080808;
+    --text-primary: #ffffff;
+    --text-secondary: #888888;
+    --border-color: #1a1a1a;
+    --box-bg: #141414;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.5;
+    padding: 0 4vw;
+}
+
+/* Typography Helpers */
+.display-title, .section-title {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 400;
+}
+
+/* Header */
+.site-header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 4rem;
+}
+
+.nav-left {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-left a, .site-footer a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    text-transform: lowercase;
+    transition: color 0.2s ease;
+}
+
+.nav-left a:hover, .nav-left a.active, .site-footer a:hover {
+    color: var(--text-primary);
+}
+
+.site-logo-icon a {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    text-decoration: none;
+}
+
+.nav-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pill-btn {
+    border: 1px solid var(--text-secondary);
+    border-radius: 50px;
+    padding: 0.5rem 1.25rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    text-transform: lowercase;
+    transition: all 0.2s ease;
+}
+
+.pill-btn:hover {
+    border-color: var(--text-primary);
+    background: var(--text-primary);
+    color: var(--bg-color);
+}
+
+/* Hero */
+.hero {
+    text-align: center;
+    padding: 5rem 0 8rem 0;
+}
+
+.display-title {
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 0.95;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* Who Am I Section */
+.who-am-i {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    padding: 6rem 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.who-title-col .section-title {
+    font-size: clamp(3rem, 6vw, 6rem);
+}
+
+.who-img-col {
+    width: 100%;
+}
+
+.portrait-img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    filter: grayscale(100%);
+    display: block;
+}
+
+/* Projects Section */
+.projects-section {
+    padding: 6rem 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.projects-header {
+    margin-bottom: 3rem;
+    text-align: right;
+}
+
+.projects-header .section-title {
+    font-size: clamp(3rem, 6vw, 6rem);
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.project-box {
+    display: block;
+    text-decoration: none;
+}
+
+.project-placeholder {
+    width: 100%;
+    aspect-ratio: 4/5;
+    background-color: var(--box-bg);
+    border: 1px solid var(--border-color);
+    transition: border-color 0.2s ease;
+}
+
+.project-box:hover .project-placeholder {
+    border-color: var(--text-secondary);
+}
+
+/* Footer */
+.site-footer {
+    padding: 3rem 0;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.social-links {
+    display: flex;
+    gap: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .site-header {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center;
+        text-align: center;
+    }
+    .nav-left {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+    .nav-right {
+        justify-content: center;
+    }
+    .who-am-i {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    .projects-header {
+        text-align: left;
+    }
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
