@@ -19,6 +19,7 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     padding: 0 4vw;
+    overflow-x: hidden;
 }
 
 /* Typography Helpers - Six Caps */
