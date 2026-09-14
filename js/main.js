@@ -21,7 +21,9 @@ async function startLoadingSequence() {
     // 4. Remove from DOM
     setTimeout(() => {
         loader.remove();
+        nitScrollReveal();   // <-- Start scroll reveals only after loader is gone
     }, 1000);
+
 }
 
 // Run immediately
@@ -235,25 +237,27 @@ function spawnTrailElement(x, y) {
 }
 
 // ── Scroll reveal: major sections fade + blur in ──
-const revealSections = document.querySelectorAll('#hero-interactive, .about-section, .projects-section, .contact-section, section');
+function initScrollReveal() {
+    const revealSections = document.querySelectorAll('#hero-interactive, .about-section, .projects-section, .contact-section, section');
 
-revealSections.forEach((el, i) => {
-    el.style.opacity = '0';
-    el.style.filter = 'blur(8px)';
-    el.style.transform = 'translateY(60px)';
-    el.style.transition = `opacity 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), filter 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1)`;
-    el.style.transitionDelay = `${i * 0.1}s`;
-});
-
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.filter = 'blur(0px)';
-            entry.target.style.transform = 'translateY(0)';
-            revealObserver.unobserve(entry.target);
-        }
+    revealSections.forEach((el, i) => {
+        el.style.opacity = '0';
+        el.style.filter = 'blur(8px)';
+        el.style.transform = 'translateY(60px)';
+        el.style.transition = `opacity 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), filter 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1)`;
+        el.style.transitionDelay = `${i * 0.1}s`;
     });
-}, { threshold: 0.15 });
 
-revealSections.forEach((el) => revealObserver.observe(el));
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.filter = 'blur(0px)';
+                entry.target.style.transform = 'translateY(0)';
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    revealSections.forEach((el) => revealObserver.observe(el));
+}
