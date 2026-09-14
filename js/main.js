@@ -86,13 +86,27 @@ document.addEventListener('mousemove', (e) => {
         const rotateY = deltaX * 12;
         const rotateX = deltaY * -12;
 
-        // Calculate blur intensity based on how far from center
-        const blurAmount = Math.abs(deltaX * 4) + Math.abs(deltaY * 4);
-
         heroTitle.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        heroTitle.style.filter = `blur(${blurAmount}px)`; // Added motion blur
-        heroTitle.style.transition = 'transform 0.1s ease-out, filter 0.1s ease-out';
+
+        // ── Distance-based motion blur ──────────────────────────
+        const moveX = e.pageX - lastMouseX;
+        const moveY = (e.clientY + window.scrollY) - lastMouseY;
+        const speed = Math.sqrt(moveX * moveX + moveY * moveY);
+
+        // Map distance to blur
+        const blurAmount = Math.min(speed * 0.35, 14);
+
+        heroTitle.style.filter = `blur(${blurAmount}px)`;
+        heroTitle.style.transition = 'transform 0.1s ease-out, filter 0.05s linear';
+
+        // Clear blur after 150ms of no movement
+        clearTimeout(motionBlurTimeout);
+        motionBlurTimeout = setTimeout(() => {
+            heroTitle.style.filter = 'blur(0px)';
+            heroTitle.style.transition = 'filter 0.3s ease-out';
+        }, 150);
     }
+
     // Add this variable near the top with your other let declarations (after heroTitle)
     let motionBlurTimeout = null;
 
