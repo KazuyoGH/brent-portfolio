@@ -123,6 +123,7 @@ body {
     overflow: visible; 
     background: transparent;
     z-index: 1;
+    margin-top: -40px; 
 }
 
 .hero-content {
