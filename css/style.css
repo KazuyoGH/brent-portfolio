@@ -14,19 +14,19 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Karma', serif;
     background-color: var(--bg-color);
     color: var(--text-primary);
-    line-height: 1.5;
+    line-height: 1.6;
     padding: 0 4vw;
 }
 
-/* Typography Helpers */
+/* Typography Helpers - Six Caps */
 .display-title, .section-title {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Six Caps', sans-serif;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
     font-weight: 400;
+    letter-spacing: 0.02em;
 }
 
 /* Header */
@@ -47,7 +47,7 @@ body {
 .nav-left a, .site-footer a {
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     text-transform: lowercase;
     transition: color 0.2s ease;
 }
@@ -57,9 +57,17 @@ body {
 }
 
 .site-logo-icon a {
-    color: var(--text-primary);
-    font-size: 1.25rem;
-    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-icon-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    /* Optional: turns a black/dark icon white to match the theme */
+    filter: invert(1); 
 }
 
 .nav-right {
@@ -73,7 +81,7 @@ body {
     padding: 0.5rem 1.25rem;
     color: var(--text-primary);
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     text-transform: lowercase;
     transition: all 0.2s ease;
 }
@@ -91,16 +99,17 @@ body {
 }
 
 .display-title {
-    font-size: clamp(4rem, 10vw, 9rem);
-    line-height: 0.95;
+    font-size: clamp(7rem, 18vw, 15rem); /* Six Caps needs to be larger to pack a punch */
+    line-height: 0.85;
     margin-bottom: 1rem;
 }
 
 .hero-subtitle {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: var(--text-secondary);
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    font-family: 'Karma', serif;
 }
 
 /* Who Am I Section */
@@ -114,7 +123,8 @@ body {
 }
 
 .who-title-col .section-title {
-    font-size: clamp(3rem, 6vw, 6rem);
+    font-size: clamp(6rem, 14vw, 12rem);
+    line-height: 0.9;
 }
 
 .who-img-col {
@@ -141,7 +151,8 @@ body {
 }
 
 .projects-header .section-title {
-    font-size: clamp(3rem, 6vw, 6rem);
+    font-size: clamp(6rem, 14vw, 12rem);
+    line-height: 0.9;
 }
 
 .projects-grid {
@@ -174,7 +185,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--text-secondary);
 }
 
