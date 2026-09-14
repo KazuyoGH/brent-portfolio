@@ -1,7 +1,6 @@
 const header = document.querySelector('.site-header');
 const hero = document.getElementById('hero-interactive');
 
-// Create a full-page container for effects
 const effectLayer = document.createElement('div');
 effectLayer.style.cssText = `
     position: absolute;
@@ -14,12 +13,11 @@ effectLayer.style.cssText = `
 document.body.appendChild(effectLayer);
 
 const MAX_ELEMENTS = 40;
-
 const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff3300', '#00ff66', '#ffffff'];
-// Code & file tree inspired snippet tokens for the glitch trail
+const glitchChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&?!<>+*=';
 const codeSnippets = [
-    '<div>', '</div>', 'class="hero"', 'const', 'import', 
-    'style.css', 'main.js', 'index.html', 'function()', 
+    '<div>', '</div>', 'class="hero"', 'const', 'import',
+    'style.css', 'main.js', 'index.html', 'function()',
     '->', '===', '{ }', 'padding: 4vw;', 'portfolio'
 ];
 
@@ -48,11 +46,11 @@ document.addEventListener('mousemove', (e) => {
     }
 
     spawnGlowOrb(e.pageX, mousePageY);
-    spawnGlitchSnippet(e.pageX, mousePageY);
+    spawnTrailElement(e.pageX, mousePageY);
 });
 
 function spawnGlowOrb(x, y) {
-    const size = 200 + Math.random() * 600; // Larger varied background glow
+    const size = 200 + Math.random() * 600;
     const half = size / 2;
 
     const orb = document.createElement('div');
@@ -76,52 +74,97 @@ function spawnGlowOrb(x, y) {
     requestAnimationFrame(() => {
         orb.style.transition = 'opacity 1.8s cubic-bezier(0.1, 1, 0.1, 1), filter 1.8s cubic-bezier(0.1, 1, 0.1, 1)';
         orb.style.opacity = '0';
-        orb.style.filter = `blur(140px)`;
+        orb.style.filter = 'blur(140px)';
     });
 
     setTimeout(() => orb.remove(), 1900);
 }
 
-function spawnGlitchSnippet(x, y) {
-    const el = document.createElement('div');
+function spawnTrailElement(x, y) {
+    const roll = Math.random();
     const color = colors[Math.floor(Math.random() * colors.length)];
-    
-    // Pick a code snippet or block token instead of just random single chars
-    const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-    const isBlock = Math.random() > 0.6;
-    
-    // Biger sizes for the trail items
-    const fontSize = Math.floor(Math.random() * 12) + 14; 
 
-    el.style.cssText = `
-        position: absolute;
-        left: ${x + (Math.random() * 40 - 20)}px;
-        top: ${y + (Math.random() * 40 - 20)}px;
-        color: ${color};
-        font-size: ${fontSize}px;
-        font-family: monospace;
-        white-space: nowrap;
-        pointer-events: none;
-        text-shadow: 0 0 12px ${color}, 0 0 25px ${color};
-        opacity: 1;
-        will-change: opacity, transform;
-    `;
+    // 1/3 chance each: square, random character, or code snippet
+    if (roll < 0.33) {
+        // --- Colored square ---
+        const size = Math.floor(Math.random() * 14) + 14;
+        const el = document.createElement('div');
+        el.style.cssText = `
+            position: absolute;
+            left: ${x - size / 2}px;
+            top: ${y - size / 2}px;
+            width: ${size}px;
+            height: ${size}px;
+            background: ${color};
+            pointer-events: none;
+            box-shadow: 0 0 10px ${color};
+            opacity: 1;
+            will-change: opacity;
+        `;
+        effectLayer.appendChild(el);
+        requestAnimationFrame(() => {
+            el.style.transition = 'opacity 0.4s ease-out';
+            el.style.opacity = '0';
+        });
+        setTimeout(() => el.remove(), 450);
 
-    if (isBlock) {
-        el.style.background = 'rgba(255, 255, 255, 0.05)';
-        el.style.border = `1px solid ${color}`;
-        el.style.padding = '2px 6px';
-        el.style.borderRadius = '3px';
+    } else if (roll < 0.66) {
+        // --- Random glitch character ---
+        const size = Math.floor(Math.random() * 20) + 20;
+        const el = document.createElement('div');
+        el.textContent = glitchChars[Math.floor(Math.random() * glitchChars.length)];
+        el.style.cssText = `
+            position: absolute;
+            left: ${x - size / 2}px;
+            top: ${y - size / 2}px;
+            color: ${color};
+            font-size: ${size}px;
+            font-family: monospace;
+            font-weight: bold;
+            pointer-events: none;
+            text-shadow: 0 0 10px ${color};
+            opacity: 1;
+            will-change: opacity;
+        `;
+        effectLayer.appendChild(el);
+        requestAnimationFrame(() => {
+            el.style.transition = 'opacity 0.4s ease-out';
+            el.style.opacity = '0';
+        });
+        setTimeout(() => el.remove(), 450);
+
+    } else {
+        // --- Code snippet ---
+        const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+        const fontSize = Math.floor(Math.random() * 12) + 14;
+        const el = document.createElement('div');
+        el.textContent = snippet;
+        el.style.cssText = `
+            position: absolute;
+            left: ${x + (Math.random() * 40 - 20)}px;
+            top: ${y + (Math.random() * 40 - 20)}px;
+            color: ${color};
+            font-size: ${fontSize}px;
+            font-family: monospace;
+            white-space: nowrap;
+            pointer-events: none;
+            text-shadow: 0 0 12px ${color}, 0 0 25px ${color};
+            opacity: 1;
+            will-change: opacity, transform;
+        `;
+        // 40% chance to wrap in a subtle bordered block
+        if (Math.random() > 0.6) {
+            el.style.background = 'rgba(255, 255, 255, 0.05)';
+            el.style.border = `1px solid ${color}`;
+            el.style.padding = '2px 6px';
+            el.style.borderRadius = '3px';
+        }
+        effectLayer.appendChild(el);
+        requestAnimationFrame(() => {
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            el.style.opacity = '0';
+            el.style.transform = `translate(${(Math.random() - 0.5) * 60}px, ${(Math.random() - 0.5) * 60}px)`;
+        });
+        setTimeout(() => el.remove(), 700);
     }
-
-    el.textContent = snippet;
-    effectLayer.appendChild(el);
-
-    requestAnimationFrame(() => {
-        el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-        el.style.opacity = '0';
-        el.style.transform = `translate(${(Math.random() - 0.5) * 60}px, ${(Math.random() - 0.5) * 60}px)`;
-    });
-
-    setTimeout(() => el.remove(), 700);
 }
