@@ -50,6 +50,9 @@ effectLayer.style.cssText = `
 `;
 document.body.appendChild(effectLayer);
 
+// ── ADD THIS ──
+const hero = document.getElementById('hero-interactive');
+
 const MAX_ELEMENTS = 60;
 
 const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff3300', '#00ff66', '#ffffff'];
@@ -249,7 +252,7 @@ function initScrollReveal() {
         el.style.opacity = '0';
         el.style.filter = 'blur(8px)';
         el.style.transform = 'translateY(60px)';
-        el.style.transition = `opacity 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), filter 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1)`;
+        el.style.transition = `opacity 1.3s cubic-bezier(0.1, 0.9, 0.2, 1), filter 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1)`;
         el.style.transitionDelay = `${i * 0.1}s`;
     });
 
