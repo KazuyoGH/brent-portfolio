@@ -4,40 +4,67 @@ const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff3300', '#00ff66', '#ffffff'
 const glitchChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&?!<>+*=';
 
 let frameCount = 0;
+let currentColor = colors;
 
+// ---------- Blurred glow orb ----------
+const glowOrb = document.createElement('div');
+glowOrb.style.cssText = `
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.3s ease;
+`;
+hero.appendChild(glowOrb);
+hero.style.overflow = 'hidden'; // already set but ensure it's there
+
+// ---------- Mouse move ----------
 document.addEventListener('mousemove', (e) => {
     const rect = hero.getBoundingClientRect();
     const isInHero = e.clientX >= rect.left && e.clientX <= rect.right &&
                      e.clientY >= rect.top && e.clientY <= rect.bottom;
 
-    // If cursor is outside hero, zap all lingering pixels immediately
     if (!isInHero) {
+        // Fade glow orb out when leaving hero
+        glowOrb.style.opacity = '0';
+        // Remove remaining trail pixels
         document.querySelectorAll('.trail-pixel').forEach(p => p.remove());
         return;
     }
 
-    frameCount++;
-    // Skip every 2nd frame to keep it readable
-    if (frameCount % 2 !== 0) return;
-
-    // Coordinates relative to the hero (not the viewport)
+    // Position + show glow orb
     const relX = e.clientX - rect.left;
     const relY = e.clientY - rect.top;
+    glowOrb.style.left = (relX - 200) + 'px';
+    glowOrb.style.top  = (relY - 200) + 'px';
+    glowOrb.style.background = `radial-gradient(circle, ${currentColor}, transparent 70%)`;
+    glowOrb.style.opacity = '0.4';
+
+    frameCount++;
+    if (frameCount % 2 !== 0) return;
 
     spawnGlitch(relX, relY);
 });
 
+// ---------- Spawn a single trail element ----------
 function spawnGlitch(x, y) {
     const el = document.createElement('div');
     el.className = 'trail-pixel';
 
     const color = colors[Math.floor(Math.random() * colors.length)];
-    const isChar = Math.random() > 0.45; // ~55% characters, 45% squares
+    currentColor = color; // glow orb will adopt this on next mousemove
+
+    const isChar = Math.random() > 0.45;
 
     if (isChar) {
-        // --- Glitch character ---
         const char = glitchChars[Math.floor(Math.random() * glitchChars.length)];
-        const size = Math.floor(Math.random() * 16) + 18; // 18–34px
+        const size = Math.floor(Math.random() * 16) + 18;
         el.textContent = char;
         el.style.cssText = `
             position: absolute;
@@ -50,10 +77,9 @@ function spawnGlitch(x, y) {
             pointer-events: none;
             z-index: 10;
             opacity: 1;
-            text-shadow: 0 0 4px ${color};
+            text-shadow: 0 0 8px ${color}, 0 0 20px ${color};
         `;
     } else {
-        // --- Bigger pixel square (8–24px) ---
         const size = Math.floor(Math.random() * 16) + 8;
         el.style.cssText = `
             position: absolute;
@@ -62,7 +88,7 @@ function spawnGlitch(x, y) {
             width: ${size}px;
             height: ${size}px;
             background: ${color};
-            box-shadow: 0 0 4px ${color};
+            box-shadow: 0 0 8px ${color}, 0 0 20px ${color};
             pointer-events: none;
             z-index: 10;
             opacity: 1;
@@ -71,7 +97,7 @@ function spawnGlitch(x, y) {
 
     hero.appendChild(el);
 
-    // Fade out over ~400ms
+    // Fade out
     let opacity = 1;
     const fade = () => {
         opacity -= 0.045;
@@ -84,11 +110,10 @@ function spawnGlitch(x, y) {
     };
     requestAnimationFrame(fade);
 
-    // Safety removal
     setTimeout(() => { if (el.parentNode) el.remove(); }, 500);
 }
 
-// Title glitch hover
+// ---------- Title glitch hover ----------
 const title = document.querySelector('.display-title');
 title.addEventListener('mouseenter', () => {
     title.style.color = '#00ffff';
