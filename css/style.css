@@ -229,6 +229,27 @@ body {
     gap: 2rem;
 }
 
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: filter 1s ease-in-out, opacity 1s ease-in-out;
+}
+
+#loader-text {
+    font-family: 'Six Caps', sans-serif;
+    font-size: 5vw;
+    color: #000;
+}
+
+
 /* Responsive adjustments */
 @media (max-width: 900px) {
     .site-header {

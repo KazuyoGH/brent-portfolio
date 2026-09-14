@@ -1,3 +1,33 @@
+// --- Initial loading sequence ---
+async function startLoadingSequence() {
+    const textEl = document.getElementById('loader-text');
+    const loader = document.getElementById('loader');
+    const words = ["hey,", "glad", "to", "have", "you", "here!", "my", "name", "is..."];
+
+    // 1. Text pop-in
+    for (const word of words) {
+        textEl.textContent = word;
+        await new Promise(r => setTimeout(r, 400));
+    }
+    
+    // 2. Short pause
+    await new Promise(r => setTimeout(r, 600));
+
+    // 3. Pixelate-out effect
+    // By combining high blur and high contrast, we get a "pixel-like" disintegration
+    loader.style.filter = 'blur(20px) contrast(20)';
+    loader.style.opacity = '0';
+
+    // 4. Remove from DOM
+    setTimeout(() => {
+        loader.remove();
+    }, 1000);
+}
+
+// Run immediately
+startLoadingSequence();
+
+
 const header = document.querySelector('.site-header');
 const hero = document.getElementById('hero-interactive');
 
