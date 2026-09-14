@@ -1,18 +1,5 @@
-const header = document.querySelector('.site-header');
-const hero = document.getElementById('hero-interactive');
+const MAX_ELEMENTS = 60; // Slightly higher cap since we're being smarter now
 
-const effectLayer = document.createElement('div');
-effectLayer.style.cssText = `
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    pointer-events: none;
-    z-index: 0;
-`;
-document.body.appendChild(effectLayer);
-
-const MAX_ELEMENTS = 40;
 const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff3300', '#00ff66', '#ffffff'];
 const glitchChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&?!<>+*=';
 const codeSnippets = [
@@ -21,14 +8,13 @@ const codeSnippets = [
     '->', '===', '{ }', 'padding: 4vw;', 'portfolio'
 ];
 
-let lastSpawn = 0;
-const THROTTLE_MS = 50;
+// --- Distance-based spawning ---
+const SPAWN_DISTANCE = 25; // pixels the mouse must move before a new spawn
+let lastMouseX = 0;
+let lastMouseY = 0;
+let accumulatedDistance = 0;
 
 document.addEventListener('mousemove', (e) => {
-    const now = performance.now();
-    if (now - lastSpawn < THROTTLE_MS) return;
-    lastSpawn = now;
-
     const headerRect = header.getBoundingClientRect();
     const heroRect = hero.getBoundingClientRect();
 
@@ -41,12 +27,32 @@ document.addEventListener('mousemove', (e) => {
 
     if (!isInZone) return;
 
+    // Measure distance from last spawn point
+    const dx = e.pageX - lastMouseX;
+    const dy = mousePageY - lastMouseY;
+    accumulatedDistance += Math.sqrt(dx * dx + dy * dy);
+
+    if (accumulatedDistance < SPAWN_DISTANCE) return;
+
+    // Reset accumulator (keep the remainder for smooth feel)
+    accumulatedDistance = 0;
+
+    lastMouseX = e.pageX;
+    lastMouseY = mousePageY;
+
     while (effectLayer.children.length > MAX_ELEMENTS) {
         effectLayer.firstChild.remove();
     }
 
+    // Spawn 2-3 elements per trigger for denser trails
+    const count = Math.floor(Math.random() * 2) + 2;
     spawnGlowOrb(e.pageX, mousePageY);
-    spawnTrailElement(e.pageX, mousePageY);
+    for (let i = 0; i < count; i++) {
+        // Small random offset so they don't stack perfectly on top of each other
+        const offsetX = (Math.random() - 0.5) * 30;
+        const offsetY = (Math.random() - 0.5) * 30;
+        spawnTrailElement(e.pageX + offsetX, mousePageY + offsetY);
+    }
 });
 
 function spawnGlowOrb(x, y) {
