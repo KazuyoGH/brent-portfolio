@@ -245,7 +245,7 @@ body {
 
 #loader-text {
     font-family: 'Karma', serif;
-    font-size: 5vw;
+    font-size: 3.5vw;  
     color: #000;
 }
 
@@ -260,7 +260,8 @@ body {
 /* Add this to style the cycling subtitle */
 .hero-subtitle {
     font-size: 1.1rem;
-    color: var(--text-secondary);
+    color: #ffffff;
+    font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     font-family: 'Karma', serif;

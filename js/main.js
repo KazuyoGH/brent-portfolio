@@ -83,7 +83,7 @@ document.addEventListener('mousemove', (e) => {
 
         const rotateY = deltaX * 12;
         const rotateX = deltaY * -12;
-        
+
         // Calculate blur intensity based on how far from center
         const blurAmount = Math.abs(deltaX * 4) + Math.abs(deltaY * 4);
 
@@ -91,20 +91,31 @@ document.addEventListener('mousemove', (e) => {
         heroTitle.style.filter = `blur(${blurAmount}px)`; // Added motion blur
         heroTitle.style.transition = 'transform 0.1s ease-out, filter 0.1s ease-out';
     }
-    // ── Parallax tilt (runs everywhere, not just hero zone) ──
+    // Add this variable near the top with your other let declarations (after heroTitle)
+    let motionBlurTimeout = null;
+
+    // Then inside document.addEventListener('mousemove', (e) => { ... }), replace this block:
     if (heroTitle) {
         const rect = heroTitle.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
 
-        const deltaX = (e.clientX - centerX) / (rect.width / 2);   // -1 to 1
-        const deltaY = (e.clientY - centerY) / (rect.height / 2);  // -1 to 1
+        const deltaX = (e.clientX - centerX) / (rect.width / 2);
+        const deltaY = (e.clientY - centerY) / (rect.height / 2);
 
-        const rotateY = deltaX * 12;  // max ±12° sideways tilt
-        const rotateX = deltaY * -12; // inverted so mouse down = tilts toward you
+        const rotateY = deltaX * 12;
+        const rotateX = deltaY * -12;
 
         heroTitle.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        heroTitle.style.transition = 'transform 0.1s ease-out';
+        heroTitle.style.filter = `blur(6px)`;       // blur while moving
+        heroTitle.style.transition = 'transform 0.1s ease-out, filter 0.1s ease-out';
+
+        // Clear blur after 150ms of no mouse movement
+        clearTimeout(motionBlurTimeout);
+        motionBlurTimeout = setTimeout(() => {
+            heroTitle.style.filter = 'blur(0px)';
+            heroTitle.style.transition = 'filter 0.3s ease-out';
+        }, 150);
     }
 
     // ── Existing zone check + trail spawn ──
@@ -116,7 +127,7 @@ document.addEventListener('mousemove', (e) => {
     const mousePageY = e.clientY + window.scrollY;
 
     const isInZone = mousePageY >= topLimit && mousePageY <= bottomLimit &&
-                     e.clientX >= 0 && e.clientX <= window.innerWidth;
+        e.clientX >= 0 && e.clientX <= window.innerWidth;
 
     if (!isInZone) return;
 
