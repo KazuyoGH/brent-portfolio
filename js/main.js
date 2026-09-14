@@ -66,9 +66,12 @@ const codeSnippets = [
 
 // --- Distance-based spawning ---
 const SPAWN_DISTANCE = 25;
+let motionBlurTimeout = null;
 let lastMouseX = 0;
 let lastMouseY = 0;
 let accumulatedDistance = null;
+let blurLastX = 0;
+let blurLastY = 0;
 
 // --- Mouse parallax for "brent feir" ---
 const heroTitle = document.querySelector('#hero-interactive h1');
@@ -88,8 +91,8 @@ document.addEventListener('mousemove', (e) => {
         heroTitle.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 
         // ── Distance-based motion blur ──────────────────────────
-        const moveX = e.pageX - lastMouseX;
-        const moveY = (e.clientY + window.scrollY) - lastMouseY;
+        const moveX = e.pageX - blurLastX;
+        const moveY = (e.clientY + window.scrollY) - blurLastY;
         const speed = Math.sqrt(moveX * moveX + moveY * moveY);
 
         // Map distance to blur
@@ -98,6 +101,10 @@ document.addEventListener('mousemove', (e) => {
         heroTitle.style.filter = `blur(${blurAmount}px)`;
         heroTitle.style.transition = 'transform 0.1s ease-out, filter 0.05s linear';
 
+        // Update blur tracker on every single move
+        blurLastX = e.pageX;
+        blurLastY = e.clientY + window.scrollY;
+
         // Clear blur after 150ms of no movement
         clearTimeout(motionBlurTimeout);
         motionBlurTimeout = setTimeout(() => {
@@ -105,6 +112,7 @@ document.addEventListener('mousemove', (e) => {
             heroTitle.style.transition = 'filter 0.3s ease-out';
         }, 150);
     }
+
 
     // ── Existing zone check + trail spawn ──
     const headerRect = header.getBoundingClientRect();
