@@ -13,15 +13,18 @@ effectLayer.style.cssText = `
 `;
 document.body.appendChild(effectLayer);
 
-// Cap active elements to prevent memory buildup
-const MAX_ELEMENTS = 50;
+const MAX_ELEMENTS = 40;
 
 const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff3300', '#00ff66', '#ffffff'];
-const glitchChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&?!<>+*=';
+// Code & file tree inspired snippet tokens for the glitch trail
+const codeSnippets = [
+    '<div>', '</div>', 'class="hero"', 'const', 'import', 
+    'style.css', 'main.js', 'index.html', 'function()', 
+    '->', '===', '{ }', 'padding: 4vw;', 'portfolio'
+];
 
-// Throttle: only spawn effects every 60ms instead of every frame
 let lastSpawn = 0;
-const THROTTLE_MS = 60;
+const THROTTLE_MS = 50;
 
 document.addEventListener('mousemove', (e) => {
     const now = performance.now();
@@ -40,18 +43,16 @@ document.addEventListener('mousemove', (e) => {
 
     if (!isInZone) return;
 
-    // Clean up excess elements before spawning — keeps DOM lightweight
     while (effectLayer.children.length > MAX_ELEMENTS) {
         effectLayer.firstChild.remove();
     }
 
     spawnGlowOrb(e.pageX, mousePageY);
-    spawnGlitch(e.pageX, mousePageY);
+    spawnGlitchSnippet(e.pageX, mousePageY);
 });
 
 function spawnGlowOrb(x, y) {
-    // Varying sizes: 100px to 800px
-    const size = 100 + Math.random() * 700;
+    const size = 200 + Math.random() * 600; // Larger varied background glow
     const half = size / 2;
 
     const orb = document.createElement('div');
@@ -65,59 +66,62 @@ function spawnGlowOrb(x, y) {
         height: ${size}px;
         border-radius: 50%;
         background: radial-gradient(circle, ${color}, transparent 70%);
-        opacity: 0.4;
+        opacity: 0.35;
         pointer-events: none;
-        filter: blur(${15 + Math.random() * 20}px);
+        filter: blur(${30 + Math.random() * 30}px);
         will-change: opacity, filter;
     `;
     effectLayer.appendChild(orb);
 
-    // Use CSS transition instead of manual rAF loop — GPU-composited, way less lag
     requestAnimationFrame(() => {
-        orb.style.transition = 'opacity 1.5s ease-out, filter 1.5s ease-out';
+        orb.style.transition = 'opacity 1.8s cubic-bezier(0.1, 1, 0.1, 1), filter 1.8s cubic-bezier(0.1, 1, 0.1, 1)';
         orb.style.opacity = '0';
-        orb.style.filter = `blur(120px)`;
+        orb.style.filter = `blur(140px)`;
     });
 
-    setTimeout(() => orb.remove(), 1600);
+    setTimeout(() => orb.remove(), 1900);
 }
 
-function spawnGlitch(x, y) {
+function spawnGlitchSnippet(x, y) {
     const el = document.createElement('div');
     const color = colors[Math.floor(Math.random() * colors.length)];
-    const isChar = Math.random() > 0.4;
-
-    const size = Math.floor(Math.random() * 20) + 20;
+    
+    // Pick a code snippet or block token instead of just random single chars
+    const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+    const isBlock = Math.random() > 0.6;
+    
+    // Biger sizes for the trail items
+    const fontSize = Math.floor(Math.random() * 12) + 14; 
 
     el.style.cssText = `
         position: absolute;
-        left: ${x - size / 2}px;
-        top: ${y - size / 2}px;
-        width: ${size}px;
-        height: ${size}px;
+        left: ${x + (Math.random() * 40 - 20)}px;
+        top: ${y + (Math.random() * 40 - 20)}px;
         color: ${color};
-        font-size: ${size}px;
+        font-size: ${fontSize}px;
         font-family: monospace;
-        font-weight: bold;
+        white-space: nowrap;
         pointer-events: none;
-        text-shadow: 0 0 10px ${color};
+        text-shadow: 0 0 12px ${color}, 0 0 25px ${color};
         opacity: 1;
-        will-change: opacity;
+        will-change: opacity, transform;
     `;
 
-    if (isChar) {
-        el.textContent = glitchChars[Math.floor(Math.random() * glitchChars.length)];
-    } else {
-        el.style.background = color;
+    if (isBlock) {
+        el.style.background = 'rgba(255, 255, 255, 0.05)';
+        el.style.border = `1px solid ${color}`;
+        el.style.padding = '2px 6px';
+        el.style.borderRadius = '3px';
     }
 
+    el.textContent = snippet;
     effectLayer.appendChild(el);
 
-    // CSS transition for the fade — no per-frame JS overhead
     requestAnimationFrame(() => {
-        el.style.transition = 'opacity 0.4s ease-out';
+        el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
         el.style.opacity = '0';
+        el.style.transform = `translate(${(Math.random() - 0.5) * 60}px, ${(Math.random() - 0.5) * 60}px)`;
     });
 
-    setTimeout(() => el.remove(), 450);
+    setTimeout(() => el.remove(), 700);
 }
