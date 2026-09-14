@@ -121,7 +121,7 @@ body {
     align-items: center;
     position: relative;
     overflow: visible; 
-    background: #080808;
+    background: transparent;
     z-index: 1;
 }
 
