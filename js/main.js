@@ -73,6 +73,24 @@ let accumulatedDistance = 0;
 const heroTitle = document.querySelector('#hero-interactive h1');
 
 document.addEventListener('mousemove', (e) => {
+    if (heroTitle) {
+        const rect = heroTitle.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const deltaX = (e.clientX - centerX) / (rect.width / 2);
+        const deltaY = (e.clientY - centerY) / (rect.height / 2);
+
+        const rotateY = deltaX * 12;
+        const rotateX = deltaY * -12;
+        
+        // Calculate blur intensity based on how far from center
+        const blurAmount = Math.abs(deltaX * 4) + Math.abs(deltaY * 4);
+
+        heroTitle.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        heroTitle.style.filter = `blur(${blurAmount}px)`; // Added motion blur
+        heroTitle.style.transition = 'transform 0.1s ease-out, filter 0.1s ease-out';
+    }
     // ── Parallax tilt (runs everywhere, not just hero zone) ──
     if (heroTitle) {
         const rect = heroTitle.getBoundingClientRect();
@@ -269,3 +287,36 @@ function initScrollReveal() {
 
     revealSections.forEach((el) => revealObserver.observe(el));
 }
+
+function initSubtitleCycle() {
+    const subtitleEl = document.querySelector('.hero-subtitle');
+    const roles = [
+        "Visual Designer",
+        "Creative Coordinator",
+        "Brand Marketer",
+        "Brand Designer",
+        "Graphic Designer"
+    ];
+    let index = 0;
+
+    async function typeEffect(text) {
+        subtitleEl.textContent = "";
+        for (let char of text) {
+            subtitleEl.textContent += char;
+            await new Promise(r => setTimeout(r, 70)); // Typing speed
+        }
+    }
+
+    async function cycle() {
+        while (true) {
+            await typeEffect(roles[index]);
+            await new Promise(r => setTimeout(r, 3000)); // Stay visible for 3s
+            index = (index + 1) % roles.length;
+        }
+    }
+
+    cycle();
+}
+
+// Call this at the bottom of your file
+initSubtitleCycle();

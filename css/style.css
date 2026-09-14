@@ -249,6 +249,24 @@ body {
     color: #000;
 }
 
+/* Add to existing .display-title */
+.display-title {
+    font-size: clamp(8rem, 20vw, 18rem);
+    color: #fff;
+    mix-blend-mode: difference;
+    transition: transform 0.1s ease-out, filter 0.1s ease-out; /* Added filter transition */
+}
+
+/* Add this to style the cycling subtitle */
+.hero-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'Karma', serif;
+    transition: opacity 0.3s ease; /* For the typing fade */
+}
+
 
 /* Responsive adjustments */
 @media (max-width: 900px) {
