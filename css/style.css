@@ -101,9 +101,8 @@ body {
     justify-content: center;
     align-items: center;
     position: relative;
-    overflow: hidden;
+    overflow: visible; 
     background: #080808;
-    border-bottom: 2px solid #ff00ff; /* Brutalist neon accent */
 }
 
 .hero-content {

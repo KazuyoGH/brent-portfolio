@@ -1,123 +1,97 @@
 const hero = document.getElementById('hero-interactive');
 
+// Create a full-screen overlay for effects
+const effectLayer = document.createElement('div');
+effectLayer.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1;
+`;
+document.body.appendChild(effectLayer);
+
 const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff3300', '#00ff66', '#ffffff'];
 const glitchChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&?!<>+*=';
 
-let frameCount = 0;
-let currentColor = colors;
-
-// ---------- Blurred glow orb ----------
-const glowOrb = document.createElement('div');
-glowOrb.style.cssText = `
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 0;
-    transition: opacity 0.3s ease;
-`;
-hero.appendChild(glowOrb);
-hero.style.overflow = 'hidden'; // already set but ensure it's there
-
-// ---------- Mouse move ----------
 document.addEventListener('mousemove', (e) => {
     const rect = hero.getBoundingClientRect();
-    const isInHero = e.clientX >= rect.left && e.clientX <= rect.right &&
-                     e.clientY >= rect.top && e.clientY <= rect.bottom;
+    const isInHero = e.clientY >= rect.top && e.clientY <= rect.bottom;
 
-    if (!isInHero) {
-        // Fade glow orb out when leaving hero
-        glowOrb.style.opacity = '0';
-        // Remove remaining trail pixels
-        document.querySelectorAll('.trail-pixel').forEach(p => p.remove());
-        return;
-    }
+    if (!isInHero) return;
 
-    // Position + show glow orb
-    const relX = e.clientX - rect.left;
-    const relY = e.clientY - rect.top;
-    glowOrb.style.left = (relX - 200) + 'px';
-    glowOrb.style.top  = (relY - 200) + 'px';
-    glowOrb.style.background = `radial-gradient(circle, ${currentColor}, transparent 70%)`;
-    glowOrb.style.opacity = '0.4';
-
-    frameCount++;
-    if (frameCount % 2 !== 0) return;
-
-    spawnGlitch(relX, relY);
+    // Spawn orb and pixel at cursor position
+    spawnGlowOrb(e.clientX, e.clientY);
+    spawnGlitch(e.clientX, e.clientY);
 });
 
-// ---------- Spawn a single trail element ----------
-function spawnGlitch(x, y) {
-    const el = document.createElement('div');
-    el.className = 'trail-pixel';
-
+function spawnGlowOrb(x, y) {
+    const orb = document.createElement('div');
     const color = colors[Math.floor(Math.random() * colors.length)];
-    currentColor = color; // glow orb will adopt this on next mousemove
-
-    const isChar = Math.random() > 0.45;
-
-    if (isChar) {
-        const char = glitchChars[Math.floor(Math.random() * glitchChars.length)];
-        const size = Math.floor(Math.random() * 16) + 18;
-        el.textContent = char;
-        el.style.cssText = `
-            position: absolute;
-            left: ${x - size / 2}px;
-            top: ${y - size / 2}px;
-            font-size: ${size}px;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            color: ${color};
-            pointer-events: none;
-            z-index: 10;
-            opacity: 1;
-            text-shadow: 0 0 8px ${color}, 0 0 20px ${color};
-        `;
-    } else {
-        const size = Math.floor(Math.random() * 16) + 8;
-        el.style.cssText = `
-            position: absolute;
-            left: ${x - size / 2}px;
-            top: ${y - size / 2}px;
-            width: ${size}px;
-            height: ${size}px;
-            background: ${color};
-            box-shadow: 0 0 8px ${color}, 0 0 20px ${color};
-            pointer-events: none;
-            z-index: 10;
-            opacity: 1;
-        `;
-    }
-
-    hero.appendChild(el);
-
-    // Fade out
-    let opacity = 1;
+    orb.style.cssText = `
+        position: fixed;
+        left: ${x - 200}px;
+        top: ${y - 200}px;
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        background: radial-gradient(circle, ${color}, transparent 70%);
+        filter: blur(80px);
+        opacity: 0.3;
+        pointer-events: none;
+    `;
+    effectLayer.appendChild(orb);
+    
+    // Orb stays in its origin position and fades out
+    let opacity = 0.3;
     const fade = () => {
-        opacity -= 0.045;
-        if (opacity <= 0) {
-            el.remove();
-            return;
-        }
-        el.style.opacity = opacity;
-        requestAnimationFrame(fade);
+        opacity -= 0.01;
+        orb.style.opacity = opacity;
+        if (opacity > 0) requestAnimationFrame(fade);
+        else orb.remove();
     };
-    requestAnimationFrame(fade);
-
-    setTimeout(() => { if (el.parentNode) el.remove(); }, 500);
+    fade();
 }
 
-// ---------- Title glitch hover ----------
-const title = document.querySelector('.display-title');
-title.addEventListener('mouseenter', () => {
-    title.style.color = '#00ffff';
-});
-title.addEventListener('mouseleave', () => {
-    title.style.color = '#ffffff';
-});
+function spawnGlitch(x, y) {
+    const el = document.createElement('div');
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const isChar = Math.random() > 0.4;
+    
+    // Bigger size
+    const size = Math.floor(Math.random() * 20) + 20; 
+
+    el.style.cssText = `
+        position: fixed;
+        left: ${x - size/2}px;
+        top: ${y - size/2}px;
+        width: ${size}px;
+        height: ${size}px;
+        color: ${color};
+        font-size: ${size}px;
+        font-family: monospace;
+        font-weight: bold;
+        pointer-events: none;
+        text-shadow: 0 0 10px ${color};
+        opacity: 1;
+    `;
+
+    if (isChar) {
+        el.textContent = glitchChars[Math.floor(Math.random() * glitchChars.length)];
+    } else {
+        el.style.background = color;
+    }
+
+    effectLayer.appendChild(el);
+
+    let opacity = 1;
+    const fade = () => {
+        opacity -= 0.03;
+        el.style.opacity = opacity;
+        if (opacity > 0) requestAnimationFrame(fade);
+        else el.remove();
+    };
+    fade();
+}
