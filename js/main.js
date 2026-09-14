@@ -3,11 +3,10 @@ document.addEventListener('mousemove', (e) => {
     const x = e.clientX;
     const y = e.clientY;
 
-    // Smooth follow effect
-    cursor.style.transform = `translate(${x - 100}px, ${y - 100}px)`;
+    // Centers the 300px gradient directly on the cursor
+    cursor.style.transform = `translate(${x - 150}px, ${y - 150}px)`;
 });
 
-// Optional: Add a "glitch" effect on hover for the title
 const title = document.querySelector('.display-title');
 title.addEventListener('mouseenter', () => {
     title.style.color = '#00ffff';
