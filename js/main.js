@@ -1,37 +1,54 @@
 const hero = document.getElementById('hero-interactive');
 
-// Create a full-screen overlay for effects
+// Ensure hero is positioned so absolute children align to it correctly
+hero.style.position = 'relative';
+hero.style.overflow = 'hidden';
+
+// Create an effect container scoped strictly inside the hero section
 const effectLayer = document.createElement('div');
 effectLayer.style.cssText = `
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
-    z-index: -1;
+    z-index: 1;
 `;
-document.body.appendChild(effectLayer);
+hero.appendChild(effectLayer);
+
+// Ensure hero content stays above the effects layer
+const heroContent = hero.querySelector('.hero-content');
+if (heroContent) {
+    heroContent.style.position = 'relative';
+    heroContent.style.zIndex = '2';
+}
 
 const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff3300', '#00ff66', '#ffffff'];
 const glitchChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&?!<>+*=';
 
 document.addEventListener('mousemove', (e) => {
     const rect = hero.getBoundingClientRect();
-    const isInHero = e.clientY >= rect.top && e.clientY <= rect.bottom;
+    
+    // Check if mouse is strictly inside the hero bounding box
+    const isInHero = e.clientX >= rect.left && e.clientX <= rect.right &&
+                     e.clientY >= rect.top && e.clientY <= rect.bottom;
 
     if (!isInHero) return;
 
-    // Spawn orb and pixel at cursor position
-    spawnGlowOrb(e.clientX, e.clientY);
-    spawnGlitch(e.clientX, e.clientY);
+    // Calculate coordinates relative to the hero element
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    spawnGlowOrb(x, y);
+    spawnGlitch(x, y);
 });
 
 function spawnGlowOrb(x, y) {
     const orb = document.createElement('div');
     const color = colors[Math.floor(Math.random() * colors.length)];
     orb.style.cssText = `
-        position: fixed;
+        position: absolute;
         left: ${x - 200}px;
         top: ${y - 200}px;
         width: 400px;
@@ -44,7 +61,6 @@ function spawnGlowOrb(x, y) {
     `;
     effectLayer.appendChild(orb);
     
-    // Orb stays in its origin position and fades out
     let opacity = 0.3;
     const fade = () => {
         opacity -= 0.01;
@@ -60,11 +76,10 @@ function spawnGlitch(x, y) {
     const color = colors[Math.floor(Math.random() * colors.length)];
     const isChar = Math.random() > 0.4;
     
-    // Bigger size
     const size = Math.floor(Math.random() * 20) + 20; 
 
     el.style.cssText = `
-        position: fixed;
+        position: absolute;
         left: ${x - size/2}px;
         top: ${y - size/2}px;
         width: ${size}px;
