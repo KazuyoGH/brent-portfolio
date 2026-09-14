@@ -133,7 +133,6 @@ body {
     border-radius: 50%;
     opacity: 0.3;
     pointer-events: none;
-    transition: transform 0.1s ease-out;
     z-index: 1;
 }
 
