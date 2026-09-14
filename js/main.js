@@ -38,6 +38,18 @@ async function startLoadingSequence() {
 // Run immediately
 startLoadingSequence();
 
+const header = document.querySelector('.site-header');
+const effectLayer = document.createElement('div');
+effectLayer.style.cssText = `
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 0;
+`;
+document.body.appendChild(effectLayer);
+
 const MAX_ELEMENTS = 60;
 
 const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff3300', '#00ff66', '#ffffff'];
