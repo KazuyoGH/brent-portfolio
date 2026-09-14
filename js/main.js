@@ -1,4 +1,19 @@
-const MAX_ELEMENTS = 60; // Slightly higher cap since we're being smarter now
+const header = document.querySelector('.site-header');
+const hero = document.getElementById('hero-interactive');
+
+// Create a full-page container for effects
+const effectLayer = document.createElement('div');
+effectLayer.style.cssText = `
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 0;
+`;
+document.body.appendChild(effectLayer);
+
+const MAX_ELEMENTS = 60;
 
 const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff3300', '#00ff66', '#ffffff'];
 const glitchChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&?!<>+*=';
@@ -9,7 +24,7 @@ const codeSnippets = [
 ];
 
 // --- Distance-based spawning ---
-const SPAWN_DISTANCE = 25; // pixels the mouse must move before a new spawn
+const SPAWN_DISTANCE = 25;
 let lastMouseX = 0;
 let lastMouseY = 0;
 let accumulatedDistance = 0;
@@ -27,16 +42,13 @@ document.addEventListener('mousemove', (e) => {
 
     if (!isInZone) return;
 
-    // Measure distance from last spawn point
     const dx = e.pageX - lastMouseX;
     const dy = mousePageY - lastMouseY;
     accumulatedDistance += Math.sqrt(dx * dx + dy * dy);
 
     if (accumulatedDistance < SPAWN_DISTANCE) return;
 
-    // Reset accumulator (keep the remainder for smooth feel)
     accumulatedDistance = 0;
-
     lastMouseX = e.pageX;
     lastMouseY = mousePageY;
 
@@ -44,11 +56,9 @@ document.addEventListener('mousemove', (e) => {
         effectLayer.firstChild.remove();
     }
 
-    // Spawn 2-3 elements per trigger for denser trails
     const count = Math.floor(Math.random() * 2) + 2;
     spawnGlowOrb(e.pageX, mousePageY);
     for (let i = 0; i < count; i++) {
-        // Small random offset so they don't stack perfectly on top of each other
         const offsetX = (Math.random() - 0.5) * 30;
         const offsetY = (Math.random() - 0.5) * 30;
         spawnTrailElement(e.pageX + offsetX, mousePageY + offsetY);
@@ -90,7 +100,6 @@ function spawnTrailElement(x, y) {
     const roll = Math.random();
     const color = colors[Math.floor(Math.random() * colors.length)];
 
-    // 1/3 chance each: square, random character, or code snippet
     if (roll < 0.33) {
         // --- Colored square ---
         const size = Math.floor(Math.random() * 14) + 14;
@@ -158,7 +167,6 @@ function spawnTrailElement(x, y) {
             opacity: 1;
             will-change: opacity, transform;
         `;
-        // 40% chance to wrap in a subtle bordered block
         if (Math.random() > 0.6) {
             el.style.background = 'rgba(255, 255, 255, 0.05)';
             el.style.border = `1px solid ${color}`;
