@@ -96,7 +96,7 @@ document.addEventListener('mousemove', (e) => {
         const speed = Math.sqrt(moveX * moveX + moveY * moveY);
 
         // Map distance to blur
-        const blurAmount = Math.min(speed * 0.35, 14);
+        const blurAmount = Math.min(speed * 0.2, 6);
 
         heroTitle.style.filter = `blur(${blurAmount}px)`;
         heroTitle.style.transition = 'transform 0.1s ease-out, filter 0.05s linear';
