@@ -29,7 +29,27 @@ let lastMouseX = 0;
 let lastMouseY = 0;
 let accumulatedDistance = 0;
 
+// --- Mouse parallax for "brent feir" ---
+const heroTitle = document.querySelector('#hero-interactive h1');
+
 document.addEventListener('mousemove', (e) => {
+    // ── Parallax tilt (runs everywhere, not just hero zone) ──
+    if (heroTitle) {
+        const rect = heroTitle.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const deltaX = (e.clientX - centerX) / (rect.width / 2);   // -1 to 1
+        const deltaY = (e.clientY - centerY) / (rect.height / 2);  // -1 to 1
+
+        const rotateY = deltaX * 12;  // max ±12° sideways tilt
+        const rotateX = deltaY * -12; // inverted so mouse down = tilts toward you
+
+        heroTitle.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        heroTitle.style.transition = 'transform 0.1s ease-out';
+    }
+
+    // ── Existing zone check + trail spawn ──
     const headerRect = header.getBoundingClientRect();
     const heroRect = hero.getBoundingClientRect();
 
@@ -64,6 +84,7 @@ document.addEventListener('mousemove', (e) => {
         spawnTrailElement(e.pageX + offsetX, mousePageY + offsetY);
     }
 });
+
 
 function spawnGlowOrb(x, y) {
     const size = 200 + Math.random() * 600;
