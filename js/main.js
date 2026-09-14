@@ -88,12 +88,12 @@ function spawnGlowOrb(x, y) {
     effectLayer.appendChild(orb);
 
     requestAnimationFrame(() => {
-        orb.style.transition = 'opacity 1.8s cubic-bezier(0.1, 1, 0.1, 1), filter 1.8s cubic-bezier(0.1, 1, 0.1, 1)';
+        orb.style.transition = 'opacity 3.5s cubic-bezier(0.1, 1, 0.1, 1), filter 1.8s cubic-bezier(0.1, 1, 0.1, 1)';
         orb.style.opacity = '0';
         orb.style.filter = 'blur(140px)';
     });
 
-    setTimeout(() => orb.remove(), 1900);
+    setTimeout(() => orb.remove(), 3700);
 }
 
 function spawnTrailElement(x, y) {
