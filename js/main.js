@@ -1,47 +1,48 @@
+const header = document.querySelector('.site-header');
 const hero = document.getElementById('hero-interactive');
 
-// Ensure hero is positioned so absolute children align to it correctly
-hero.style.position = 'relative';
-hero.style.overflow = 'hidden';
-
-// Create an effect container scoped strictly inside the hero section
+// Create a full-page container for effects that spans from header top to hero bottom
 const effectLayer = document.createElement('div');
 effectLayer.style.cssText = `
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
     pointer-events: none;
-    z-index: 1;
+    z-index: 5; /* Sits above background, behind text/nav */
 `;
-hero.appendChild(effectLayer);
+document.body.appendChild(effectLayer);
 
-// Ensure hero content stays above the effects layer
+// Ensure header and hero content stay clickable and above the effect layer
+header.style.position = 'sticky';
+header.style.zIndex = '100';
+
 const heroContent = hero.querySelector('.hero-content');
 if (heroContent) {
     heroContent.style.position = 'relative';
-    heroContent.style.zIndex = '2';
+    heroContent.style.zIndex = '10';
 }
 
 const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff3300', '#00ff66', '#ffffff'];
 const glitchChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&?!<>+*=';
 
 document.addEventListener('mousemove', (e) => {
-    const rect = hero.getBoundingClientRect();
+    const headerRect = header.getBoundingClientRect();
+    const heroRect = hero.getBoundingClientRect();
     
-    // Check if mouse is strictly inside the hero bounding box
-    const isInHero = e.clientX >= rect.left && e.clientX <= rect.right &&
-                     e.clientY >= rect.top && e.clientY <= rect.bottom;
+    // Total interactive bounds: top of header to bottom of hero
+    const topLimit = headerRect.top + window.scrollY;
+    const bottomLimit = heroRect.bottom + window.scrollY;
+    const mousePageY = e.clientY + window.scrollY;
 
-    if (!isInHero) return;
+    const isInZone = mousePageY >= topLimit && mousePageY <= bottomLimit &&
+                     e.clientX >= 0 && e.clientX <= window.innerWidth;
 
-    // Calculate coordinates relative to the hero element
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    if (!isInZone) return;
 
-    spawnGlowOrb(x, y);
-    spawnGlitch(x, y);
+    // Use absolute page coordinates so effects place accurately anywhere on the page
+    spawnGlowOrb(e.pageX, mousePageY);
+    spawnGlitch(e.pageX, mousePageY);
 });
 
 function spawnGlowOrb(x, y) {
