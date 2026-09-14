@@ -9,7 +9,7 @@ effectLayer.style.cssText = `
     left: 0;
     width: 100%;
     pointer-events: none;
-    z-index: 5; /* Sits above background, behind text/nav */
+    z-index: 0;
 `;
 document.body.appendChild(effectLayer);
 
