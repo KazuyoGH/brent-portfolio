@@ -94,14 +94,27 @@ body {
 
 /* Hero */
 .hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: #080808;
+    border-bottom: 2px solid #ff00ff; /* Brutalist neon accent */
+}
+
+.hero-content {
     text-align: center;
-    padding: 5rem 0 8rem 0;
+    z-index: 2;
+    pointer-events: none; /* Allows mouse to interact with background behind text */
 }
 
 .display-title {
-    font-size: clamp(7rem, 18vw, 15rem); /* Six Caps needs to be larger to pack a punch */
-    line-height: 0.85;
-    margin-bottom: 1rem;
+    font-size: clamp(8rem, 20vw, 18rem);
+    color: #fff;
+    mix-blend-mode: difference; /* Makes text invert color over background */
 }
 
 .hero-subtitle {
@@ -110,6 +123,18 @@ body {
     letter-spacing: 0.1em;
     text-transform: uppercase;
     font-family: 'Karma', serif;
+}
+
+.mouse-tracker {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, #ff00ff, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.3;
+    pointer-events: none;
+    transition: transform 0.1s ease-out;
+    z-index: 1;
 }
 
 /* Who Am I Section */
