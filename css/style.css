@@ -216,12 +216,13 @@ body {
     border-radius: 16px;
     align-items: start;
     
-    background: rgba(14, 14, 14, 0.35);
+    background: rgba(0, 0, 0, 0.35);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     position: relative;
     z-index: 2;
 }
+
 
 .who-title-col .section-title {
     font-size: clamp(6rem, 14vw, 12rem);
@@ -247,12 +248,13 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
 
-    background: rgba(14, 14, 14, 0.35);
+    background: rgba(0, 0, 0, 0.35);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     position: relative;
     z-index: 2;
 }
+
 .projects-header {
     margin-bottom: 3rem;
     text-align: right;
