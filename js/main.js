@@ -36,15 +36,15 @@ startLoadingSequence();
 const header = document.querySelector('.site-header');
 const effectLayer = document.createElement('div');
 effectLayer.style.cssText = `
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
-`;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+    `;
 document.body.appendChild(effectLayer);
 
 const hero = document.getElementById('hero-interactive');
@@ -172,20 +172,26 @@ function spawnGlowOrb(x, y) {
         filter: blur(${30 + Math.random() * 30}px);
         will-change: opacity, filter;
     `;
-    effectLayer.appendChild(el);
-    el.style.transition = 'opacity 0.4s ease-out';
-    el.style.opacity = '0';
-    setTimeout(() => el.remove(), 450);
+    effectLayer.appendChild(orb);
 
-    function spawnTrailElement(x, y) {
-        const roll = Math.random();
-        const color = colors[Math.floor(Math.random() * colors.length)];
+    requestAnimationFrame(() => {
+        orb.style.transition = 'opacity 3.5s cubic-bezier(0.1, 1, 0.1, 1), filter 1.8s cubic-bezier(0.1, 1, 0.1, 1)';
+        orb.style.opacity = '0';
+        orb.style.filter = 'blur(140px)';
+    });
 
-        if (roll < 0.33) {
-            // --- Colored square ---
-            const size = Math.floor(Math.random() * 14) + 14;
-            const el = document.createElement('div');
-            el.style.cssText = `
+    setTimeout(() => orb.remove(), 3700);
+}
+
+function spawnTrailElement(x, y) {
+    const roll = Math.random();
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    if (roll < 0.33) {
+        // --- Colored square ---
+        const size = Math.floor(Math.random() * 14) + 14;
+        const el = document.createElement('div');
+        el.style.cssText = `
             position: absolute;
             left: ${x - size / 2}px;
             top: ${y - size / 2}px;
@@ -197,19 +203,19 @@ function spawnGlowOrb(x, y) {
             opacity: 1;
             will-change: opacity;
         `;
-            effectLayer.appendChild(el);
-            requestAnimationFrame(() => {
-                el.style.transition = 'opacity 0.4s ease-out';
-                el.style.opacity = '0';
-            });
-            setTimeout(() => el.remove(), 450);
+        effectLayer.appendChild(el);
+        requestAnimationFrame(() => {
+            el.style.transition = 'opacity 0.4s ease-out';
+            el.style.opacity = '0';
+        });
+        setTimeout(() => el.remove(), 450);
 
-        } else if (roll < 0.66) {
-            // --- Random glitch character ---
-            const size = Math.floor(Math.random() * 20) + 20;
-            const el = document.createElement('div');
-            el.textContent = glitchChars[Math.floor(Math.random() * glitchChars.length)];
-            el.style.cssText = `
+    } else if (roll < 0.66) {
+        // --- Random glitch character ---
+        const size = Math.floor(Math.random() * 20) + 20;
+        const el = document.createElement('div');
+        el.textContent = glitchChars[Math.floor(Math.random() * glitchChars.length)];
+        el.style.cssText = `
             position: absolute;
             left: ${x - size / 2}px;
             top: ${y - size / 2}px;
@@ -222,20 +228,20 @@ function spawnGlowOrb(x, y) {
             opacity: 1;
             will-change: opacity;
         `;
-            effectLayer.appendChild(el);
-            requestAnimationFrame(() => {
-                el.style.transition = 'opacity 0.4s ease-out';
-                el.style.opacity = '0';
-            });
-            setTimeout(() => el.remove(), 450);
+        effectLayer.appendChild(el);
+        requestAnimationFrame(() => {
+            el.style.transition = 'opacity 0.4s ease-out';
+            el.style.opacity = '0';
+        });
+        setTimeout(() => el.remove(), 450);
 
-        } else {
-            // --- Code snippet ---
-            const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-            const fontSize = Math.floor(Math.random() * 12) + 14;
-            const el = document.createElement('div');
-            el.textContent = snippet;
-            el.style.cssText = `
+    } else {
+        // --- Code snippet ---
+        const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+        const fontSize = Math.floor(Math.random() * 12) + 14;
+        const el = document.createElement('div');
+        el.textContent = snippet;
+        el.style.cssText = `
             position: absolute;
             left: ${x + (Math.random() * 40 - 20)}px;
             top: ${y + (Math.random() * 40 - 20)}px;
@@ -248,72 +254,70 @@ function spawnGlowOrb(x, y) {
             opacity: 1;
             will-change: opacity, transform;
         `;
-            if (Math.random() > 0.6) {
-                el.style.background = 'rgba(255, 255, 255, 0.05)';
-                el.style.border = `1px solid ${color}`;
-                el.style.padding = '2px 6px';
-                el.style.borderRadius = '3px';
-            }
-            effectLayer.appendChild(el);
-            requestAnimationFrame(() => {
-                el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-                el.style.opacity = '0';
-                el.style.transform = `translate(${(Math.random() - 0.5) * 60}px, ${(Math.random() - 0.5) * 60}px)`;
-            });
-            setTimeout(() => el.remove(), 700);
+        if (Math.random() > 0.6) {
+            el.style.background = 'rgba(255, 255, 255, 0.05)';
+            el.style.border = `1px solid ${color}`;
+            el.style.padding = '2px 6px';
+            el.style.borderRadius = '3px';
         }
-    }
-
-    // ── Scroll reveal: major sections fade + blur in ──
-    function initScrollReveal() {
-        const revealSections = document.querySelectorAll('#hero-interactive, .about-section, .projects-section, .contact-section');
-
-        revealSections.forEach((el, i) => {
+        effectLayer.appendChild(el);
+        requestAnimationFrame(() => {
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
             el.style.opacity = '0';
-            el.style.filter = 'blur(8px)';
-            el.style.transform = 'translateY(60px)';
-            el.style.transition = `opacity 2.3s cubic-bezier(0.1, 0.9, 0.2, 1), filter 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1)`;
-            el.style.transitionDelay = `${i * 0.1}s`;
+            el.style.transform = `translate(${(Math.random() - 0.5) * 60}px, ${(Math.random() - 0.5) * 60}px)`;
+        });
+        setTimeout(() => el.remove(), 700);
+    }
+}
+
+// ── Scroll reveal: major sections fade + blur in ──
+function initScrollReveal() {
+    const revealSections = document.querySelectorAll('#hero-interactive, .about-section, .projects-section, .contact-section');
+
+    revealSections.forEach((el, i) => {
+        el.style.opacity = '0';
+        el.style.filter = 'blur(8px)';
+        el.style.transform = 'translateY(60px)';
+        el.style.transition = `opacity 2.3s cubic-bezier(0.1, 0.9, 0.2, 1), filter 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1)`;
+        el.style.transitionDelay = `${i * 0.1}s`;
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.filter = 'blur(0px)';
+                entry.target.style.transform = 'translateY(0)';
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    revealSections.forEach((el) => revealObserver.observe(el));
+}
+
+function initSubtitleCycle() {
+    const items = document.querySelectorAll('.subtitle-item');
+    let currentIndex = 0;
+
+    function updateCarousel() {
+        items.forEach((item, index) => {
+            item.className = 'subtitle-item';
+
+            if (index === currentIndex) {
+                item.classList.add('active');
+            } else if (index === (currentIndex - 1 + items.length) % items.length) {
+                item.classList.add('prev');
+            } else if (index === (currentIndex + 1) % items.length) {
+                item.classList.add('next');
+            } else {
+                item.classList.add('hidden');
+            }
         });
 
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.filter = 'blur(0px)';
-                    entry.target.style.transform = 'translateY(0)';
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15 });
-
-        revealSections.forEach((el) => revealObserver.observe(el));
+        currentIndex = (currentIndex + 1) % items.length;
     }
 
-    function initSubtitleCycle() {
-        const items = document.querySelectorAll('.subtitle-item');
-        let currentIndex = 0;
-
-        function updateCarousel() {
-            items.forEach((item, index) => {
-                item.className = 'subtitle-item'; // Reset structural classes
-
-                if (index === currentIndex) {
-                    item.classList.add('active');
-                } else if (index === (currentIndex - 1 + items.length) % items.length) {
-                    item.classList.add('prev'); // Arcs upward out of view
-                } else if (index === (currentIndex + 1) % items.length) {
-                    item.classList.add('next'); // Arcs downward into view
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
-
-            currentIndex = (currentIndex + 1) % items.length;
-        }
-
-        // Cycle every 2 seconds
-        setInterval(updateCarousel, 2000);
-    }
-
+    setInterval(updateCarousel, 2000);
+}
 
