@@ -87,15 +87,15 @@ document.addEventListener('mousemove', (e) => {
         targetRotateX = deltaY * -12;
     }
 
-    // ── Existing zone check + trail spawn ──
-    const headerRect = header.getBoundingClientRect();
-    const heroRect = hero.getBoundingClientRect();
-
-    const topLimit = headerRect.top + window.scrollY;
-    const bottomLimit = heroRect.bottom + window.scrollY;
+    // ── Trail spawn across the whole page ──
     const mousePageY = e.clientY + window.scrollY;
+    const docHeight = Math.max(
+        document.body.scrollHeight, document.documentElement.scrollHeight,
+        document.body.offsetHeight, document.documentElement.offsetHeight,
+        document.body.clientHeight, document.documentElement.clientHeight
+    );
 
-    const isInZone = mousePageY >= topLimit && mousePageY <= bottomLimit &&
+    const isInZone = mousePageY >= 0 && mousePageY <= docHeight &&
         e.clientX >= 0 && e.clientX <= window.innerWidth;
 
     if (!isInZone) return;
