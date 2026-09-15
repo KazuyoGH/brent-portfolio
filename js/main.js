@@ -404,3 +404,20 @@ function renderTab(tabId, items) {
         </div>
     `).join('');
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const copyBtn = document.getElementById('copyEmailBtn');
+    if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            const email = copyBtn.getAttribute('data-email');
+            navigator.clipboard.writeText(email).then(() => {
+                copyBtn.textContent = 'email copied!';
+                setTimeout(() => {
+                    copyBtn.textContent = 'email';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        });
+    }
+});

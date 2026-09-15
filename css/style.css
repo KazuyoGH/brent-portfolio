@@ -285,7 +285,7 @@ body {
 .site-footer {
     padding: 3rem 0;
     border-top: 1px solid var(--border-color);
-    background: #000000
+    background: #000000;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -296,6 +296,23 @@ body {
 .social-links {
     display: flex;
     gap: 2rem;
+    align-items: center;
+}
+
+.copy-email-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: var(--text-secondary);
+    font-family: 'Karma', serif;
+    font-size: 0.9rem;
+    text-transform: lowercase;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.copy-email-btn:hover {
+    color: var(--text-primary);
 }
 
 #loader {
