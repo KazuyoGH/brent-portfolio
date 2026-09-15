@@ -316,10 +316,25 @@ body {
     mix-blend-mode: difference;
     transition: transform 0.1s ease-out, filter 0.1s ease-out;
     /* Added filter transition */
+    text-shadow: 
+        calc(var(--extrude-x, 0px) * 0.06) calc(var(--extrude-y, 0px) * 0.06) 0px #1c223b,
+        calc(var(--extrude-x, 0px) * 0.13) calc(var(--extrude-y, 0px) * 0.13) 0px #1c223b,
+        calc(var(--extrude-x, 0px) * 0.20) calc(var(--extrude-y, 0px) * 0.20) 0px #1c223b,
+        calc(var(--extrude-x, 0px) * 0.26) calc(var(--extrude-y, 0px) * 0.26) 0px #1c223b,
+        calc(var(--extrude-x, 0px) * 0.33) calc(var(--extrude-y, 0px) * 0.33) 0px #1c223b,
+        calc(var(--extrude-x, 0px) * 0.40) calc(var(--extrude-y, 0px) * 0.40) 0px #1c223b,
+        calc(var(--extrude-x, 0px) * 0.46) calc(var(--extrude-y, 0px) * 0.46) 0px #1c223b,
+        calc(var(--extrude-x, 0px) * 0.53) calc(var(--extrude-y, 0px) * 0.53) 0px #1c223b,
+        calc(var(--extrude-x, 0px) * 0.60) calc(var(--extrude-y, 0px) * 0.60) 0px #1c223b,
+        calc(var(--extrude-x, 0px) * 0.66) calc(var(--extrude-y, 0px) * 0.66) 0px #1c223b,
+        calc(var(--extrude-x, 0px) * 0.73) calc(var(--extrude-y, 0px) * 0.73) 0px #1c223b,
+        calc(var(--extrude-x, 0px) * 0.80) calc(var(--extrude-y, 0px) * 0.80) 0px #1c223b,
+        calc(var(--extrude-x, 0px) * 0.86) calc(var(--extrude-y, 0px) * 0.86) 0px #1c223b,
+        calc(var(--extrude-x, 0px) * 0.93) calc(var(--extrude-y, 0px) * 0.93) 0px #1c223b,
+        var(--extrude-x, 0px) var(--extrude-y, 0px) 1px #1c223b;    
 }
 
 .display-title::before {
-    content: "BRENT FEIR";
     position: absolute;
     /* Center it perfectly behind the main text */
     top: 50%;
