@@ -52,15 +52,112 @@
             </div>
         </section>
 
-        <!-- Who Am I Section -->
-        <section class="who-am-i">
-            <div class="who-title-col">
-                <h2 class="section-title">WHO AM I</h2>
+        <section id="about" class="who-am-i">
+            <!-- Left Column: Intro, Switcher, and Dynamic Content -->
+            <div class="who-content-col">
+                <h2 class="section-title">Who Am I</h2>
+
+                <p class="about-bio">
+                    Hello! I'm <strong>Brent Feir</strong>, a Visual Designer based in Dubai. I work on brand design,
+                    marketing, and graphic design, developing and elevating the everyday brand identity through human
+                    authenticity alongside the AI-forward world.
+                </p>
+
+                <!-- 3-Way Switcher -->
+                <div class="switch-container">
+                    <button class="switch-btn active" data-target="experience">Experience</button>
+                    <button class="switch-btn" data-target="education">Education</button>
+                    <button class="switch-btn" data-target="extracurricular">Extracurricular</button>
+                </div>
+
+                <!-- Timeline Container -->
+                <div class="timeline-container">
+                    <div class="timeline-line"></div>
+
+                    <!-- EXPERIENCE TAB CONTENT -->
+                    <div class="tab-content active" id="experience">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-card">
+                                <h3>Example Role</h3>
+                                <div class="timeline-meta">
+                                    <span><i class="far fa-calendar"></i> June 2026 - June 2027</span>
+                                    <span><i class="fas fa-map-marker-alt"></i> Dubai, UAE</span>
+                                    <span><i class="fas fa-building"></i> Cool Company Inc.</span>
+                                </div>
+                                <ul class="timeline-bullets">
+                                    <li>Cool Mentions hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</li>
+                                    <li>wow cool company</li>
+                                    <li>i did a good job</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-card">
+                                <h3>Example Role</h3>
+                                <div class="timeline-meta">
+                                    <span>June 2026 - June 2027</span>
+                                    <span>Dubai, UAE</span>
+                                    <span>Cool Company Inc.</span>
+                                </div>
+                                <ul class="timeline-bullets">
+                                    <li>Cool Mentions hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</li>
+                                    <li>wow cool company</li>
+                                    <li>i did a good job</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EDUCATION TAB CONTENT -->
+                    <div class="tab-content" id="education">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-card">
+                                <h3>Visual Communications Student</h3>
+                                <div class="timeline-meta">
+                                    <span>2024 - Present</span>
+                                    <span>Dubai, UAE</span>
+                                    <span>University / Institution</span>
+                                </div>
+                                <ul class="timeline-bullets">
+                                    <li>Focused on digital media, design systems, and brand identity.</li>
+                                    <li>Completed specialized coursework including Canva Essentials & Scale Creative
+                                        Campaigns.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EXTRACURRICULAR TAB CONTENT -->
+                    <div class="tab-content" id="extracurricular">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-card">
+                                <h3>Creative Lead / Member</h3>
+                                <div class="timeline-meta">
+                                    <span>2025 - Present</span>
+                                    <span>Dubai, UAE</span>
+                                    <span>Design Collective</span>
+                                </div>
+                                <ul class="timeline-bullets">
+                                    <li>Organized local design meetups and collaborative workshops.</li>
+                                    <li>Explored intersectional design using AI tools and human-first workflows.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- Right Column: Portrait Image -->
             <div class="who-img-col">
-                <img src="images/about.jpg" alt="Brent Feir" class="portrait-img">
+                <img src="path-to-your-image.jpg" alt="Brent Feir portrait" class="portrait-img">
             </div>
         </section>
+
 
         <!-- Projects Grid Section -->
         <section class="projects-section">

@@ -372,6 +372,168 @@ body {
     /* For the typing fade */
 }
 
+/* Section Layout Update */
+.who-am-i {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 4rem;
+    padding: 6rem 0;
+    border-top: 1px solid var(--border-color);
+    align-items: start;
+}
+
+.who-content-col .section-title {
+    font-size: clamp(6rem, 14vw, 12rem);
+    line-height: 0.9;
+    margin-bottom: 2rem;
+}
+
+.about-bio {
+    font-family: 'Karma', serif;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    max-width: 90%;
+}
+
+/* 3-Way Switcher Pills */
+.switch-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3.5rem;
+}
+
+.switch-btn {
+    background: transparent;
+    border: 1px solid var(--text-secondary);
+    border-radius: 50px;
+    padding: 0.5rem 1.5rem;
+    color: var(--text-secondary);
+    font-family: 'Karma', serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: lowercase;
+}
+
+.switch-btn:hover {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+}
+
+.switch-btn.active {
+    border-color: var(--text-primary);
+    background: var(--text-primary);
+    color: var(--bg-color);
+}
+
+/* Timeline Structure */
+.timeline-container {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline-line {
+    position: absolute;
+    left: 4px;
+    top: 5px;
+    bottom: 5px;
+    width: 1px;
+    background: var(--border-color);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 3rem;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -2rem;
+    top: 6px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--bg-color);
+    border: 1.5px solid var(--text-primary);
+    transform: translateX(-3.5px);
+}
+
+.timeline-card h3 {
+    font-family: 'Six Caps', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.04em;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.timeline-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-family: 'Karma', serif;
+}
+
+.timeline-bullets {
+    list-style-type: disc;
+    padding-left: 1.2rem;
+    font-family: 'Karma', serif;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.timeline-bullets li {
+    margin-bottom: 0.3rem;
+}
+
+/* Portrait Image Styles */
+.who-img-col {
+    position: sticky;
+    top: 120px; /* Stays nicely in view as you scroll through tabs */
+}
+
+.portrait-img {
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+    filter: grayscale(100%);
+    display: block;
+    border: 1px solid var(--border-color);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustment */
+@media (max-width: 900px) {
+    .who-am-i {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    .who-img-col {
+        position: static;
+    }
+    .portrait-img {
+        height: 400px;
+    }
+}
 
 /* Responsive adjustments */
 @media (max-width: 900px) {

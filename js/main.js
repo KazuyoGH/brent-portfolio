@@ -330,3 +330,25 @@ function initSubtitleCycle() {
     setInterval(updateCarousel, 2000);
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const switchBtns = document.querySelectorAll('.switch-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    switchBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active classes from buttons & tabs
+            switchBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(t => t.classList.remove('active'));
+
+            // Add active class to clicked button
+            btn.classList.add('active');
+
+            // Target and activate corresponding tab content
+            const targetId = btn.getAttribute('data-target');
+            const targetContent = document.getElementById(targetId);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+        });
+    });
+});
