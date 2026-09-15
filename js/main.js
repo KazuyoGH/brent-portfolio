@@ -69,6 +69,10 @@ let blurLastY = 0;
 
 // --- Mouse parallax for "brent feir" ---
 const heroTitle = document.querySelector('#hero-interactive h1');
+let targetRotateX = 0;
+let targetRotateY = 0;
+let currentRotateX = 0;
+let currentRotateY = 0;
 
 document.addEventListener('mousemove', (e) => {
     if (heroTitle) {
@@ -79,34 +83,28 @@ document.addEventListener('mousemove', (e) => {
         const deltaX = (e.clientX - centerX) / (rect.width / 2);
         const deltaY = (e.clientY - centerY) / (rect.height / 2);
 
-        const rotateY = deltaX * 12;
-        const rotateX = deltaY * -12;
+        // Store the target rotation (snaps to cursor)
+        targetRotateY = deltaX * 12;
+        targetRotateX = deltaY * -12;
 
-        heroTitle.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-
-        // ── Distance-based motion blur ──────────────────────────
+        // ── Distance-based motion blur (keeping this) ──
         const moveX = e.pageX - blurLastX;
         const moveY = (e.clientY + window.scrollY) - blurLastY;
         const speed = Math.sqrt(moveX * moveX + moveY * moveY);
-
-        // Map distance to blur
         const blurAmount = Math.min(speed * 0.2, 6);
 
         heroTitle.style.filter = `blur(${blurAmount}px)`;
-        heroTitle.style.transition = 'transform 0.1s ease-out, filter 0.05s linear';
+        heroTitle.style.transition = 'filter 0.05s linear';
 
-        // Update blur tracker on every single move
         blurLastX = e.pageX;
         blurLastY = e.clientY + window.scrollY;
 
-        // Clear blur after 150ms of no movement
         clearTimeout(motionBlurTimeout);
         motionBlurTimeout = setTimeout(() => {
             heroTitle.style.filter = 'blur(0px)';
             heroTitle.style.transition = 'filter 0.3s ease-out';
         }, 150);
     }
-
 
     // ── Existing zone check + trail spawn ──
     const headerRect = header.getBoundingClientRect();
@@ -144,6 +142,18 @@ document.addEventListener('mousemove', (e) => {
     }
 });
 
+function animateParallax() {
+    currentRotateX += (targetRotateX - currentRotateX) * 0.08;
+    currentRotateY += (targetRotateY - currentRotateY) * 0.08;
+
+    if (heroTitle) {
+        heroTitle.style.transform = `perspective(800px) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`;
+    }
+
+    requestAnimationFrame(animateParallax);
+}
+
+animateParallax();
 
 function spawnGlowOrb(x, y) {
     const size = 200 + Math.random() * 600;
