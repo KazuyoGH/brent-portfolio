@@ -161,7 +161,7 @@ body {
     font-size: 1.1rem;
     font-weight: 500;
     color: #ffffff;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     user-select: none;
     pointer-events: none;
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 

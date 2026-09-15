@@ -312,7 +312,7 @@ function initSubtitleCycle() {
     }
 
     // Cycle every 3 seconds
-    setInterval(updateCarousel, 1200);
+    setInterval(updateCarousel, 2000);
 }
 
 // Call this at the bottom of your file
