@@ -27,7 +27,8 @@ body {
 }
 
 /* Typography Helpers - Six Caps */
-.display-title, .section-title {
+.display-title,
+.section-title {
     font-family: 'Six Caps', sans-serif;
     text-transform: uppercase;
     font-weight: 400;
@@ -49,12 +50,10 @@ body {
 
     /* --- Fade-out background --- */
     /* Solid at the top, transparent at the bottom so it blends into the hero */
-    background: linear-gradient(
-        to bottom,
-        #080808 0%,
-        #080808 60%,
-        transparent 100%
-    );
+    background: linear-gradient(to bottom,
+            #080808 0%,
+            #080808 60%,
+            transparent 100%);
 
     /* Pull the header edge-to-edge across the body padding so the gradient feels continuous */
     margin-left: -4vw;
@@ -68,7 +67,8 @@ body {
     gap: 2rem;
 }
 
-.nav-left a, .site-footer a {
+.nav-left a,
+.site-footer a {
     color: var(--text-secondary);
     text-decoration: none;
     font-size: 0.9rem;
@@ -76,7 +76,9 @@ body {
     transition: color 0.2s ease;
 }
 
-.nav-left a:hover, .nav-left a.active, .site-footer a:hover {
+.nav-left a:hover,
+.nav-left a.active,
+.site-footer a:hover {
     color: var(--text-primary);
 }
 
@@ -117,29 +119,37 @@ body {
 /* Hero */
 .hero {
     height: 80vh;
-    min-height: 500px; 
+    min-height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     position: relative;
-    overflow: visible; 
+    overflow: visible;
     background: transparent;
     z-index: 1;
-    margin-top: -40px; 
+    margin-top: -40px;
 }
 
 .hero-content {
     text-align: center;
     z-index: 2;
-    pointer-events: none; /* Allows mouse to interact with background behind text */
+    pointer-events: none;
+    /* Allows mouse to interact with background behind text */
 }
 
 .display-title {
     font-size: clamp(8rem, 20vw, 18rem);
     color: #fff;
     mix-blend-mode: difference;
-    transition: transform 0.1s ease-out, filter 0.3s ease-out; 
+    transition: transform 0.1s ease-out, filter 0.3s ease-out;
+    text-shadow:
+        2px 0px 0px #ff00ff,
+        4px 0px 0px #cc00dd,
+        6px 0px 0px #9900bb,
+        8px 0px 0px #660099,
+        10px 0px 0px #330077,
+        12px 0px 0px #000055;
 }
 
 /* 3D Elevated Circular Title Carousel */
@@ -165,9 +175,9 @@ body {
     letter-spacing: 0.05em;
     user-select: none;
     pointer-events: none;
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
-                opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
-                filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* 3D Plane Positions mimicking your sketch */
@@ -309,7 +319,8 @@ body {
     font-size: clamp(8rem, 20vw, 18rem);
     color: #fff;
     mix-blend-mode: difference;
-    transition: transform 0.1s ease-out, filter 0.1s ease-out; /* Added filter transition */
+    transition: transform 0.1s ease-out, filter 0.1s ease-out;
+    /* Added filter transition */
 }
 
 /* Add this to style the cycling subtitle */
@@ -320,7 +331,8 @@ body {
     letter-spacing: 0.1em;
     text-transform: uppercase;
     font-family: 'Karma', serif;
-    transition: opacity 0.3s ease; /* For the typing fade */
+    transition: opacity 0.3s ease;
+    /* For the typing fade */
 }
 
 
@@ -333,21 +345,26 @@ body {
         align-items: center;
         text-align: center;
     }
+
     .nav-left {
         flex-wrap: wrap;
         justify-content: center;
         gap: 1rem;
     }
+
     .nav-right {
         justify-content: center;
     }
+
     .who-am-i {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
+
     .projects-header {
         text-align: left;
     }
+
     .projects-grid {
         grid-template-columns: 1fr;
     }
