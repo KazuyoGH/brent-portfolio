@@ -132,7 +132,7 @@ function animateParallax() {
 
         // Move the pseudo-layer opposite to the mouse direction.
         // The multiplier controls how much "depth" the text appears to have.
-        const depthFactor = 10; // px — higher = deeper extrusion
+        const depthFactor = 15; // adjust depth intensity here
         const offsetX = (targetRotateY / 12) * depthFactor;
         const offsetY = (targetRotateX / 12) * depthFactor;
 

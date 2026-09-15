@@ -321,8 +321,10 @@ body {
 .display-title::before {
     content: "BRENT FEIR";
     position: absolute;
-    left: var(--extrude-x, 0px);
-    top: var(--extrude-y, 0px);
+    /* Center it perfectly behind the main text */
+    top: 50%;
+    left: 50%;
+    transform: translate(calc(-50% + var(--extrude-x, 0px)), calc(-50% + var(--extrude-y, 0px)));
     z-index: -1;
 
     /* Match the exact same text styling */
@@ -334,18 +336,13 @@ body {
     white-space: nowrap;
     width: max-content;
 
-    /* Make it sit behind the real text */
     pointer-events: none;
     user-select: none;
-
-    /* A bright color that feels like an extrusion */
     color: #1c223b;
-
-    /* Subtle blur helps sell the depth illusion */
     filter: blur(1px);
 
     /* Smooth animation when offset changes */
-    transition: left 0.08s linear, top 0.08s linear;
+    transition: transform 0.08s linear;
 }
 
 /* Add this to style the cycling subtitle */
