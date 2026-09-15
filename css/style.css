@@ -283,7 +283,7 @@ body {
 
 /* Footer */
 .site-footer {
-    padding: 3rem 0;
+    padding: 3rem 4vw;
     border-top: 1px solid var(--border-color);
     background: #000000;
     display: flex;
@@ -291,6 +291,9 @@ body {
     align-items: center;
     font-size: 0.9rem;
     color: var(--text-secondary);
+    margin-left: -4vw;
+    margin-right: -4vw;
+    width: calc(100% + 8vw);
 }
 
 .social-links {
