@@ -397,24 +397,35 @@ body {
     max-width: 90%;
 }
 
-/* 3-Way Switcher Pills */
 .switch-container {
     display: flex;
     gap: 1rem;
     margin-bottom: 3.5rem;
 }
 
-.switch-btn {
-    background: transparent;
+.segmented-switch {
+    display: flex;
+    position: relative;
+    width: fit-content;
     border: 1px solid var(--text-secondary);
     border-radius: 50px;
-    padding: 0.5rem 1.5rem;
+    overflow: hidden;
+}
+
+.switch-btn {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0.6rem 1.8rem;
     color: var(--text-secondary);
     font-family: 'Karma', serif;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
     text-transform: lowercase;
+    position: relative;
+    z-index: 2;
+    white-space: nowrap;
 }
 
 .switch-btn:hover {
@@ -423,20 +434,30 @@ body {
 }
 
 .switch-btn.active {
-    border-color: var(--text-primary);
+    color: var(--bg-color); /* text turns bg color when slider covers it */
+}
+
+.switch-slider {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    left: 2px;
+    width: calc(33.333% - 4px); /* one third minus gaps */
     background: var(--text-primary);
-    color: var(--bg-color);
+    border-radius: 50px;
+    z-index: 1;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Timeline Structure */
 .timeline-container {
     position: relative;
-    padding-left: 2rem;
+    padding-left: 2.5rem;
 }
 
 .timeline-line {
     position: absolute;
-    left: 4px;
+    left: 9px;
     top: 5px;
     bottom: 5px;
     width: 1px;
@@ -459,22 +480,22 @@ body {
 
 .timeline-dot {
     position: absolute;
-    left: -2rem;
+    left: 0;
     top: 6px;
-    width: 9px;
-    height: 9px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     background: var(--bg-color);
     border: 1.5px solid var(--text-primary);
-    transform: translateX(-3.5px);
+    transform: translateX(-50%); 
 }
 
 .timeline-card h3 {
-    font-family: 'Six Caps', sans-serif;
-    font-size: 2rem;
-    letter-spacing: 0.04em;
-    font-weight: 400;
-    text-transform: uppercase;
+    font-family: 'Karma', serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--text-primary);
     margin-bottom: 0.5rem;
 }
