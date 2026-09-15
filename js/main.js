@@ -331,6 +331,8 @@ function initSubtitleCycle() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    loadAboutFromYaml();
+
     const switchBtns = document.querySelectorAll('.switch-btn');
     const tabContents = document.querySelectorAll('.tab-content');
     const slider = document.querySelector('.switch-slider');
@@ -362,3 +364,42 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSlider(activeBtn);
     }
 });
+
+async function loadAboutFromYaml() {
+    try {
+        const res = await fetch('about.yaml');
+        const text = await res.text();
+        const data = jsyaml.load(text);
+
+        // Render bio
+        document.getElementById('about-bio').innerHTML = data.bio;
+
+        // Render each tab (renderTab stays the same from before)
+        renderTab('experience', data.experience);
+        renderTab('education', data.education);
+        renderTab('extracurricular', data.extracurricular);
+
+    } catch (err) {
+        console.error('YAML load failed:', err);
+    }
+}
+
+function renderTab(tabId, items) {
+    const container = document.getElementById(tabId);
+    container.innerHTML = items.map(item => `
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <h3>${item.title}</h3>
+                <div class="timeline-meta">
+                    <span>${item.period}</span>
+                    <span>${item.location}</span>
+                    <span>${item.organization}</span>
+                </div>
+                <ul class="timeline-bullets">
+                    ${item.highlights.map(h => `<li>${h}</li>`).join('')}
+                </ul>
+            </div>
+        </div>
+    `).join('');
+}
