@@ -333,17 +333,21 @@ function initSubtitleCycle() {
 document.addEventListener('DOMContentLoaded', () => {
     const switchBtns = document.querySelectorAll('.switch-btn');
     const tabContents = document.querySelectorAll('.tab-content');
+    const slider = document.querySelector('.switch-slider');
+
+    function updateSlider(activeBtn) {
+        slider.style.width = `${activeBtn.offsetWidth}px`;
+        slider.style.left = `${activeBtn.offsetLeft}px`;
+    }
 
     switchBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Remove active classes from buttons & tabs
             switchBtns.forEach(b => b.classList.remove('active'));
             tabContents.forEach(t => t.classList.remove('active'));
 
-            // Add active class to clicked button
             btn.classList.add('active');
+            updateSlider(btn);
 
-            // Target and activate corresponding tab content
             const targetId = btn.getAttribute('data-target');
             const targetContent = document.getElementById(targetId);
             if (targetContent) {
@@ -351,4 +355,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Initialize on load
+    const activeBtn = document.querySelector('.switch-btn.active') || switchBtns;
+    if (activeBtn) {
+        updateSlider(activeBtn);
+    }
 });
