@@ -331,6 +331,8 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.02em;
     line-height: 1;
+    white-space: nowrap;
+    width: max-content;
 
     /* Make it sit behind the real text */
     pointer-events: none;
