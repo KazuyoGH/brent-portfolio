@@ -138,7 +138,8 @@ body {
 .display-title {
     font-size: clamp(8rem, 20vw, 18rem);
     color: #fff;
-    mix-blend-mode: difference; /* Makes text invert color over background */
+    mix-blend-mode: difference;
+    transition: transform 0.1s ease-out, filter 0.3s ease-out; 
 }
 
 /* 3D Elevated Circular Title Carousel */

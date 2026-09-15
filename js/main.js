@@ -94,7 +94,6 @@ document.addEventListener('mousemove', (e) => {
         const blurAmount = Math.min(speed * 0.2, 6);
 
         heroTitle.style.filter = `blur(${blurAmount}px)`;
-        heroTitle.style.transition = 'filter 0.05s linear';
 
         blurLastX = e.pageX;
         blurLastY = e.clientY + window.scrollY;
@@ -102,7 +101,6 @@ document.addEventListener('mousemove', (e) => {
         clearTimeout(motionBlurTimeout);
         motionBlurTimeout = setTimeout(() => {
             heroTitle.style.filter = 'blur(0px)';
-            heroTitle.style.transition = 'filter 0.3s ease-out';
         }, 150);
     }
 
