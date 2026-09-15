@@ -294,6 +294,8 @@ body {
     margin-left: -4vw;
     margin-right: -4vw;
     width: calc(100% + 8vw);
+    position: relative;
+    z-index: 5; 
 }
 
 .social-links {
