@@ -210,15 +210,17 @@ body {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
     gap: 4rem;
-    padding: 6rem 4vw;
-    margin: 2rem -4vw; 
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 5rem 4rem;
+    margin: 3rem 0; 
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
     align-items: start;
     
-    background: rgba(20, 20, 20, 0.55);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(14, 14, 14, 0.35);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    position: relative;
+    z-index: 2;
 }
 
 .who-title-col .section-title {
@@ -240,16 +242,17 @@ body {
 
 /* Projects Section */
 .projects-section {
-    padding: 6rem 4vw;
-    margin: 2rem -4vw; 
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 5rem 4rem;
+    margin: 3rem 0; 
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
 
-    background: rgba(20, 20, 20, 0.55);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(14, 14, 14, 0.35);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    position: relative;
+    z-index: 2;
 }
-
 .projects-header {
     margin-bottom: 3rem;
     text-align: right;
