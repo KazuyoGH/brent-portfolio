@@ -96,7 +96,7 @@ document.addEventListener('mousemove', (e) => {
         document.body.clientHeight, document.documentElement.clientHeight
     );
 
-    const isInZone = mousePageY >= 0 && mousePageY <= docHeight &&
+    const isInZone = e.clientY >= 0 && e.clientY <= window.innerHeight &&
         e.clientX >= 0 && e.clientX <= window.innerWidth;
 
     if (!isInZone) return;
@@ -116,11 +116,11 @@ document.addEventListener('mousemove', (e) => {
     }
 
     const count = Math.floor(Math.random() * 2) + 2;
-    spawnGlowOrb(e.pageX, mousePageY);
+    spawnGlowOrb(e.clientX, e.clientY);
     for (let i = 0; i < count; i++) {
         const offsetX = (Math.random() - 0.5) * 30;
         const offsetY = (Math.random() - 0.5) * 30;
-        spawnTrailElement(e.pageX + offsetX, mousePageY + offsetY);
+        spawnTrailElement(e.clientX + offsetX, e.clientY + offsetY);
     }
 });
 
