@@ -60,19 +60,17 @@ const codeSnippets = [
 
 // --- Distance-based spawning ---
 const SPAWN_DISTANCE = 25;
-let motionBlurTimeout = null;
 let lastMouseX = 0;
 let lastMouseY = 0;
 let accumulatedDistance = null;
-let blurLastX = 0;
-let blurLastY = 0;
 
-// --- Mouse parallax for "brent feir" ---
 const heroTitle = document.querySelector('#hero-interactive h1');
 let targetRotateX = 0;
 let targetRotateY = 0;
 let currentRotateX = 0;
 let currentRotateY = 0;
+let prevRotateX = 0;
+let prevRotateY = 0;
 
 document.addEventListener('mousemove', (e) => {
     if (heroTitle) {
@@ -83,25 +81,8 @@ document.addEventListener('mousemove', (e) => {
         const deltaX = (e.clientX - centerX) / (rect.width / 2);
         const deltaY = (e.clientY - centerY) / (rect.height / 2);
 
-        // Store the target rotation (snaps to cursor)
         targetRotateY = deltaX * 12;
         targetRotateX = deltaY * -12;
-
-        // ── Distance-based motion blur (keeping this) ──
-        const moveX = e.pageX - blurLastX;
-        const moveY = (e.clientY + window.scrollY) - blurLastY;
-        const speed = Math.sqrt(moveX * moveX + moveY * moveY);
-        const blurAmount = Math.min(speed * 0.2, 6);
-
-        heroTitle.style.filter = `blur(${blurAmount}px)`;
-
-        blurLastX = e.pageX;
-        blurLastY = e.clientY + window.scrollY;
-
-        clearTimeout(motionBlurTimeout);
-        motionBlurTimeout = setTimeout(() => {
-            heroTitle.style.filter = 'blur(0px)';
-        }, 150);
     }
 
     // ── Existing zone check + trail spawn ──
@@ -146,12 +127,29 @@ function animateParallax() {
 
     if (heroTitle) {
         heroTitle.style.transform = `perspective(800px) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`;
+
+        // Visual motion — how much rotation changed since last frame
+        const dx = currentRotateX - prevRotateX;
+        const dy = currentRotateY - prevRotateY;
+        const visualSpeed = Math.sqrt(dx * dx + dy * dy);
+
+        // Blur only when the text is actually moving visually
+        const blurAmount = visualSpeed > 0.15
+            ? Math.min(visualSpeed * 2.5, 6)
+            : 0;
+
+        heroTitle.style.filter = `blur(${blurAmount}px)`;
+        heroTitle.style.transition = 'filter 0.08s linear';
+
+        prevRotateX = currentRotateX;
+        prevRotateY = currentRotateY;
     }
 
     requestAnimationFrame(animateParallax);
 }
 
 animateParallax();
+
 
 function spawnGlowOrb(x, y) {
     const size = 200 + Math.random() * 600;
