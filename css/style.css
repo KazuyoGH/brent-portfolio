@@ -90,8 +90,6 @@ body {
     width: 24px;
     height: 24px;
     object-fit: contain;
-    /* Optional: turns a black/dark icon white to match the theme */
-    filter: invert(1); 
 }
 
 .nav-right {
@@ -249,9 +247,10 @@ body {
 }
 
 #loader-text {
-    font-family: 'Karma', serif;
-    font-size: 3.5vw;  
-    color: #000;
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, filter 0.8s ease-out, transform 0.8s ease-out;
 }
 
 /* Add to existing .display-title */

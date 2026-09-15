@@ -4,14 +4,7 @@ async function startLoadingSequence() {
     const loader = document.getElementById('loader');
     const sentence = "hey, glad to have you here! my name is..";
 
-    // Set full text immediately
     textEl.textContent = sentence;
-
-    // Start state: hidden, blurred, pushed down
-    textEl.style.opacity = '0';
-    textEl.style.filter = 'blur(10px)';
-    textEl.style.transform = 'translateY(40px)';
-    textEl.style.transition = 'opacity 0.8s ease-out, filter 0.8s ease-out, transform 0.8s ease-out';
 
     // Brief pause before it begins
     await new Promise(r => setTimeout(r, 400));
@@ -34,6 +27,7 @@ async function startLoadingSequence() {
         initScrollReveal();
     }, 1000);
 }
+
 
 // Run immediately
 startLoadingSequence();
