@@ -290,34 +290,31 @@ function initScrollReveal() {
 }
 
 function initSubtitleCycle() {
-    const subtitleEl = document.querySelector('.hero-subtitle');
-    const roles = [
-        "Visual Designer",
-        "Creative Coordinator",
-        "Brand Marketer",
-        "Brand Designer",
-        "Graphic Designer"
-    ];
-    let index = 0;
+    const items = document.querySelectorAll('.subtitle-item');
+    let currentIndex = 0;
 
-    async function typeEffect(text) {
-        subtitleEl.textContent = "";
-        for (let char of text) {
-            subtitleEl.textContent += char;
-            await new Promise(r => setTimeout(r, 70)); // Typing speed
-        }
+    function updateCarousel() {
+        items.forEach((item, index) => {
+            item.className = 'subtitle-item'; // Reset structural classes
+
+            if (index === currentIndex) {
+                item.classList.add('active');
+            } else if (index === (currentIndex - 1 + items.length) % items.length) {
+                item.classList.add('prev'); // Arcs upward out of view
+            } else if (index === (currentIndex + 1) % items.length) {
+                item.classList.add('next'); // Arcs downward into view
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+
+        currentIndex = (currentIndex + 1) % items.length;
     }
 
-    async function cycle() {
-        while (true) {
-            await typeEffect(roles[index]);
-            await new Promise(r => setTimeout(r, 3000)); // Stay visible for 3s
-            index = (index + 1) % roles.length;
-        }
-    }
-
-    cycle();
+    // Cycle every 3 seconds
+    setInterval(updateCarousel, 3000);
 }
 
 // Call this at the bottom of your file
 initSubtitleCycle();
+

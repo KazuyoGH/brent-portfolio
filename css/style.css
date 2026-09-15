@@ -141,12 +141,62 @@ body {
     mix-blend-mode: difference; /* Makes text invert color over background */
 }
 
-.hero-subtitle {
+/* 3D Elevated Circular Title Carousel */
+.hero-subtitle-ring {
+    position: relative;
+    height: 90px;
+    width: 450px;
+    margin: 0 auto;
+    perspective: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.subtitle-item {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-family: 'Karma', serif;
     font-size: 1.1rem;
-    color: var(--text-secondary);
+    font-weight: 500;
+    color: #ffffff;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    font-family: 'Karma', serif;
+    user-select: none;
+    pointer-events: none;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 3D Plane Positions mimicking your sketch */
+.subtitle-item.active {
+    transform: translateY(0px) translateZ(0px) scale(1);
+    opacity: 1;
+    filter: blur(0px);
+    z-index: 3;
+}
+
+.subtitle-item.prev {
+    transform: translateY(-45px) translateZ(-100px) scale(0.85);
+    opacity: 0.35;
+    filter: blur(5px);
+    z-index: 2;
+}
+
+.subtitle-item.next {
+    transform: translateY(45px) translateZ(-100px) scale(0.85);
+    opacity: 0.35;
+    filter: blur(5px);
+    z-index: 2;
+}
+
+.subtitle-item.hidden {
+    transform: translateY(0px) translateZ(-200px) scale(0.7);
+    opacity: 0;
+    filter: blur(10px);
+    z-index: 1;
 }
 
 
