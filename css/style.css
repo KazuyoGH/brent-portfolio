@@ -181,14 +181,14 @@ body {
 .subtitle-item.prev {
     transform: translateY(-45px) translateZ(-100px) scale(0.85);
     opacity: 0.35;
-    filter: blur(5px);
+    filter: blur(2px);
     z-index: 2;
 }
 
 .subtitle-item.next {
     transform: translateY(45px) translateZ(-100px) scale(0.85);
     opacity: 0.35;
-    filter: blur(5px);
+    filter: blur(2px);
     z-index: 2;
 }
 
