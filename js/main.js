@@ -130,6 +130,15 @@ function animateParallax() {
     if (heroTitle) {
         heroTitle.style.transform = `perspective(800px) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`;
 
+        // Move the pseudo-layer opposite to the mouse direction.
+        // The multiplier controls how much "depth" the text appears to have.
+        const depthFactor = 20; // px — higher = deeper extrusion
+        const offsetX = -(targetRotateY / 12) * depthFactor;
+        const offsetY = -(targetRotateX / 12) * depthFactor;
+
+        heroTitle.style.setProperty('--extrude-x', `${offsetX}px`);
+        heroTitle.style.setProperty('--extrude-y', `${offsetY}px`);
+
         // Visual motion — how much rotation changed since last frame
         const dx = currentRotateX - prevRotateX;
         const dy = currentRotateY - prevRotateY;

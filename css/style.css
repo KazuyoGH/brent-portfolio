@@ -143,13 +143,8 @@ body {
     color: #fff;
     mix-blend-mode: difference;
     transition: transform 0.1s ease-out, filter 0.3s ease-out;
-    text-shadow:
-        2px 0px 0px #ff00ff,
-        4px 0px 0px #cc00dd,
-        6px 0px 0px #9900bb,
-        8px 0px 0px #660099,
-        10px 0px 0px #330077,
-        12px 0px 0px #000055;
+    position: relative;
+    z-index: 1;
 }
 
 /* 3D Elevated Circular Title Carousel */
@@ -321,6 +316,34 @@ body {
     mix-blend-mode: difference;
     transition: transform 0.1s ease-out, filter 0.1s ease-out;
     /* Added filter transition */
+}
+
+.display-title::before {
+    content: "BRENT FEIR";
+    position: absolute;
+    left: var(--extrude-x, 0px);
+    top: var(--extrude-y, 0px);
+    z-index: -1;
+
+    /* Match the exact same text styling */
+    font-family: 'Six Caps', sans-serif;
+    font-size: clamp(8rem, 20vw, 18rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+
+    /* Make it sit behind the real text */
+    pointer-events: none;
+    user-select: none;
+
+    /* A bright color that feels like an extrusion */
+    color: #1c223b;
+
+    /* Subtle blur helps sell the depth illusion */
+    filter: blur(1px);
+
+    /* Smooth animation when offset changes */
+    transition: left 0.08s linear, top 0.08s linear;
 }
 
 /* Add this to style the cycling subtitle */
