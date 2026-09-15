@@ -338,7 +338,7 @@ body {
 
     pointer-events: none;
     user-select: none;
-    color: #1c223b;
+    color: #808080;
     filter: blur(1px);
 
     /* Smooth animation when offset changes */
