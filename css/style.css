@@ -167,7 +167,7 @@ body {
     font-size: 1.5rem;
     font-weight: 500;
     color: #ffffff;
-    letter-spacing: 0.08em;
+    letter-spacing: -0.03em;
     user-select: none;
     pointer-events: none;
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
@@ -216,7 +216,7 @@ body {
     border-radius: 16px;
     align-items: start;
     
-    background: rgba(8, 8, 8, 0.6);
+    background: rgba(8, 8, 8, 0.8);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     position: relative;
@@ -241,7 +241,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
 
-    background: rgba(8, 8, 8, 0.6);
+    background: rgba(8, 8, 8, 0.8);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     position: relative;
@@ -285,6 +285,7 @@ body {
 .site-footer {
     padding: 3rem 0;
     border-top: 1px solid var(--border-color);
+    background: #000000
     display: flex;
     justify-content: space-between;
     align-items: center;
