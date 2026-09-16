@@ -1,3 +1,4 @@
+// projects.html
 async function loadProjectsData() {
     try {
         // Fetch projects and featured list simultaneously
@@ -67,7 +68,7 @@ function renderAllProjects(projects, activeTag = 'All') {
 
 function createProjectCardHTML(project) {
     return `
-        <a href="project-name.html?slug=${project.slug}" class="project-card">
+        <a href="projects/template.html?slug=${project.slug}" class="project-card">
             <div class="project-image-wrap">
                 <img src="${project.thumbnail}" alt="${project.title}">
             </div>
@@ -81,6 +82,7 @@ function createProjectCardHTML(project) {
         </a>
     `;
 }
+
 
 // Global scope tracker for filters
 let globalProjectsCache = [];

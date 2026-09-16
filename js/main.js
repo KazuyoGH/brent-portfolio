@@ -1,4 +1,4 @@
-// --- Initial loading sequence ---
+// js/main.js
 async function startLoadingSequence() {
     const textEl = document.getElementById('loader-text');
     const loader = document.getElementById('loader');

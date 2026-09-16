@@ -1,128 +1,129 @@
-    <!DOCTYPE html>
-    <html lang="en">
+<!-- index.html-->
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Brent Feir — Visual Designer</title>
-        <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Karma:wght@300;400;500&family=Six+Caps&display=swap"
-            rel="stylesheet">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brent Feir — Visual Designer</title>
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Karma:wght@300;400;500&family=Six+Caps&display=swap"
+        rel="stylesheet">
+</head>
 
-    <body>
+<body>
 
-        <div id="loader">
-            <h2 id="loader-text"></h2>
+    <div id="loader">
+        <h2 id="loader-text"></h2>
+    </div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <nav class="nav-left">
+            <a href="index.html" class="active">home</a>
+            <a href="projects.html">projects</a>
+            <a href="blog.html">blog</a>
+        </nav>
+
+        <div class="site-logo-icon">
+            <a href="index.html">
+                <img src="images/logo-icon.png" alt="Logo" class="nav-icon-img">
+            </a>
         </div>
 
-        <!-- Header -->
-        <header class="site-header">
-            <nav class="nav-left">
-                <a href="index.html" class="active">home</a>
-                <a href="projects.html">projects</a>
-                <a href="blog.html">blog</a>
-            </nav>
+        <div class="nav-right">
+            <a href="contact.html" class="pill-btn">lets connect</a>
+        </div>
+    </header>
 
-            <div class="site-logo-icon">
-                <a href="index.html">
-                    <img src="images/logo-icon.png" alt="Logo" class="nav-icon-img">
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="hero-interactive">
+            <div class="hero-content">
+                <h1 class="display-title">BRENT FEIR</h1>
+                <div class="hero-subtitle-ring" id="titleRing">
+                    <div class="subtitle-item active" data-index="0">Visual Designer</div>
+                    <div class="subtitle-item next" data-index="1">Creative Coordinator</div>
+                    <div class="subtitle-item hidden" data-index="2">Brand Marketer</div>
+                    <div class="subtitle-item hidden" data-index="3">Brand Designer</div>
+                    <div class="subtitle-item prev" data-index="4">Graphic Designer</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="who-am-i">
+            <!-- Left Column: Intro, Switcher, and Dynamic Content -->
+            <div class="who-content-col">
+                <h2 class="section-title">Who Am I</h2>
+
+                <p id="about-bio" class="about-bio"></p>
+
+                <!-- 3-Way Switcher -->
+                <div class="switch-container">
+                    <div class="segmented-switch">
+                        <button class="switch-btn active" data-target="experience">experience</button>
+                        <button class="switch-btn" data-target="education">education</button>
+                        <button class="switch-btn" data-target="extracurricular">extracurricular</button>
+                        <div class="switch-slider"></div>
+                    </div>
+                </div>
+
+                <!-- Timeline Container -->
+                <div class="timeline-container">
+                    <div class="timeline-line"></div>
+
+                    <!-- EXPERIENCE TAB CONTENT -->
+                    <div class="tab-content active" id="experience"></div>
+
+                    <!-- EDUCATION TAB CONTENT -->
+                    <div class="tab-content" id="education"></div>
+
+                    <!-- EXTRACURRICULAR TAB CONTENT -->
+                    <div class="tab-content" id="extracurricular"></div>
+
+                </div>
+            </div>
+
+            <!-- Right Column: Portrait Image -->
+            <div class="who-img-col">
+                <img src="images/about.jpg" alt="Brent Feir portrait" class="portrait-img">
+            </div>
+        </section>
+
+
+        <!-- Projects Grid Section -->
+        <section class="projects-section">
+            <div class="projects-header">
+                <h2 class="section-title">PROJECTS</h2>
+            </div>
+            <div class="projects-grid">
+                <a href="projects/project-name.html" class="project-box">
+                    <div class="project-placeholder"></div>
+                </a>
+                <a href="projects/project-name.html" class="project-box">
+                    <div class="project-placeholder"></div>
+                </a>
+                <a href="projects/project-name.html" class="project-box">
+                    <div class="project-placeholder"></div>
                 </a>
             </div>
+        </section>
+    </main>
 
-            <div class="nav-right">
-                <a href="contact.html" class="pill-btn">lets connect</a>
-            </div>
-        </header>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Brent Feir</p>
+        <div class="social-links">
+            <button class="copy-email-btn" id="copyEmailBtn" data-email="feirbrent@gmail.com">email</button>
+            <a href="https://www.linkedin.com/in/brent-feir/" target="_blank">linkedin</a>
+            <a href="https://www.instagram.com/creativelyby.brent/" target="_blank">instagram</a>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+</body>
 
-        <main>
-            <!-- Hero Section -->
-            <section class="hero" id="hero-interactive">
-                <div class="hero-content">
-                    <h1 class="display-title">BRENT FEIR</h1>
-                    <div class="hero-subtitle-ring" id="titleRing">
-                        <div class="subtitle-item active" data-index="0">Visual Designer</div>
-                        <div class="subtitle-item next" data-index="1">Creative Coordinator</div>
-                        <div class="subtitle-item hidden" data-index="2">Brand Marketer</div>
-                        <div class="subtitle-item hidden" data-index="3">Brand Designer</div>
-                        <div class="subtitle-item prev" data-index="4">Graphic Designer</div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="about" class="who-am-i">
-                <!-- Left Column: Intro, Switcher, and Dynamic Content -->
-                <div class="who-content-col">
-                    <h2 class="section-title">Who Am I</h2>
-
-                    <p id="about-bio" class="about-bio"></p>
-
-                    <!-- 3-Way Switcher -->
-                    <div class="switch-container">
-                        <div class="segmented-switch">
-                            <button class="switch-btn active" data-target="experience">experience</button>
-                            <button class="switch-btn" data-target="education">education</button>
-                            <button class="switch-btn" data-target="extracurricular">extracurricular</button>
-                            <div class="switch-slider"></div>
-                        </div>
-                    </div>
-
-                    <!-- Timeline Container -->
-                    <div class="timeline-container">
-                        <div class="timeline-line"></div>
-
-                        <!-- EXPERIENCE TAB CONTENT -->
-                        <div class="tab-content active" id="experience"></div>
-
-                        <!-- EDUCATION TAB CONTENT -->
-                        <div class="tab-content" id="education"></div>
-
-                        <!-- EXTRACURRICULAR TAB CONTENT -->
-                        <div class="tab-content" id="extracurricular"></div>
-
-                    </div>
-                </div>
-
-                <!-- Right Column: Portrait Image -->
-                <div class="who-img-col">
-                    <img src="images/about.jpg" alt="Brent Feir portrait" class="portrait-img">
-                </div>
-            </section>
-
-
-            <!-- Projects Grid Section -->
-            <section class="projects-section">
-                <div class="projects-header">
-                    <h2 class="section-title">PROJECTS</h2>
-                </div>
-                <div class="projects-grid">
-                    <a href="projects/project-name.html" class="project-box">
-                        <div class="project-placeholder"></div>
-                    </a>
-                    <a href="projects/project-name.html" class="project-box">
-                        <div class="project-placeholder"></div>
-                    </a>
-                    <a href="projects/project-name.html" class="project-box">
-                        <div class="project-placeholder"></div>
-                    </a>
-                </div>
-            </section>
-        </main>
-
-        <!-- Footer -->
-        <footer class="site-footer">
-            <p>&copy; 2026 Brent Feir</p>
-            <div class="social-links">
-                <button class="copy-email-btn" id="copyEmailBtn" data-email="feirbrent@gmail.com">email</button>
-                <a href="https://www.linkedin.com/in/brent-feir/" target="_blank">linkedin</a>
-                <a href="https://www.instagram.com/creativelyby.brent/" target="_blank">instagram</a>
-            </div>
-        </footer>
-        <script src="js/main.js"></script>
-    </body>
-
-    </html>
+</html>

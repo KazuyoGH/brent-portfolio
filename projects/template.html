@@ -1,11 +1,14 @@
+<!-- projects/template.html-->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title id="page-title">Project Details</title>
     <link rel="stylesheet" href="../css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 </head>
+
 <body>
     <!-- Navbar placeholder matching your design -->
     <header class="site-header">
@@ -25,11 +28,11 @@
             <a href="contact.html" class="pill-btn">lets connect</a>
         </div>
     </header>
-    
+
     <main class="project-detail-main">
         <h1 id="proj-title" class="project-detail-heading"></h1>
         <p id="proj-subtitle" class="project-detail-sub"></p>
-        
+
         <div id="proj-tags" class="project-detail-tags"></div>
 
         <div class="project-detail-description" id="proj-desc"></div>
@@ -59,7 +62,7 @@
             document.getElementById('proj-title').textContent = project.title;
             document.getElementById('proj-subtitle').textContent = project.subtitle;
             document.getElementById('proj-hero-img').src = `../${project.hero_image}`;
-            
+
             document.getElementById('proj-tags').innerHTML = project.tags
                 .map(t => `<span class="project-tag-pill">${t}</span>`).join('');
 
@@ -83,4 +86,5 @@
         </div>
     </footer>
 </body>
+
 </html>
