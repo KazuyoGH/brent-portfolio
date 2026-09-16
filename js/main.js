@@ -1,7 +1,7 @@
 const lenis = new Lenis({
-    duration: 0.2,            // how long the ease lasts (higher = slower)
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
-    smoothWheel: true,        // enable mouse wheel smoothing
+    duration: 0.2,
+    easing: (t) => t * (2 - t),
+    smoothWheel: true,
 });
 
 function raf(time) {
