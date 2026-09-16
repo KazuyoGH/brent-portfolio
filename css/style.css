@@ -731,6 +731,31 @@ body {
     display: block;
 }
 
+.project-cover-banner {
+    width: 100%;
+    height: 45vh;
+    min-height: 300px;
+    background-size: cover;
+    background-position: center;
+    background-color: #111;
+    border-bottom: 1px solid var(--border-color, #222);
+    margin-bottom: 4rem;
+}
+
+.project-inline-img-wrap {
+    width: 100%;
+    margin: 3rem 0;
+    border: 1px solid var(--border-color, #222);
+    background: #111;
+    overflow: hidden;
+}
+
+.project-inline-img-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }

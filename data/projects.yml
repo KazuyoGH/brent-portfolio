@@ -2,15 +2,17 @@
   title: "The Awesome Project"
   subtitle: "A Design Development Identity"
   thumbnail: "images/project-1.png"
-  hero_image: "images/project-1-hero.png"
+  cover_image: "images/project-1.png"
   tags:
     - Branding
     - Marketing
     - UX/UI Development
   description: |
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a turpis eget purus commodo congue quis id erat. Curabitur consectetur maximus dapibus. Integer sem lectus, placerat vel augue nec, dignissim mollis nisl. Proin aliquam justo sit amet rutrum interdum.
-    
-    Curabitur in augue vel tellus ultricies cursus id in velit. Nam tincidunt, lorem vitae molestie ornare, lacus orci commodo magna, id feugiat nunc orci quis nulla.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a turpis eget purus commodo congue quis id erat. Curabitur consectetur maximus dapibus. Integer sem lectus, placerat vel augue nec, dignissim mollis nisl.
+
+    ![Branding Wireframes](images/project-1.png)
+
+    Proin aliquam justo sit amet rutrum interdum. Curabitur in augue vel tellus ultricies cursus id in velit. Nam tincidunt, lorem vitae molestie ornare, lacus orci commodo magna.
 
 - slug: branding-overhaul
   title: "Brand Overhaul"
