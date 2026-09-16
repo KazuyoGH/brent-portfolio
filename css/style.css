@@ -665,15 +665,19 @@ body {
 .project-card-tags, .project-detail-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 5rem;
 }
 
 .project-tag-pill {
-    font-size: 0.75rem;
-    border: 1px solid var(--border-color, #333);
-    padding: 0.2rem 0.8rem;
+    font-size: 0.85rem;
+    border: 1px solid var(--border-color);
+    padding: 0.35rem 1.1rem;
     border-radius: 50px;
-    color: #888;
+    color: var(--text-secondary);
+    background: transparent;
+    letter-spacing: 0.5px;
 }
 
 /* Nothing to show fallback */
@@ -687,36 +691,41 @@ body {
 
 /* Project Detail View (Desktop - 3 style) */
 .project-detail-main {
-    max-width: 900px;
-    margin: 10vh auto 15vh auto;
+    max-width: 850px;
+    margin: 0 auto 15vh auto;
     padding: 0 4vw;
+    text-align: left;
 }
 
 .project-detail-heading {
     font-family: 'Six Caps', sans-serif;
-    font-size: 5.5rem;
+    font-size: clamp(5rem, 12vw, 9rem);
     line-height: 0.9;
-    margin-bottom: 0.5rem;
-    color: #fff;
-    letter-spacing: 1px;
+    margin-bottom: 0.4rem;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
 }
 
 .project-detail-sub {
-    font-size: 1.1rem;
-    color: #888;
+    font-size: 1.15rem;
+    color: var(--text-secondary);
     margin-bottom: 1.5rem;
+    font-family: 'Karma', serif;
 }
 
 .project-detail-description {
     font-family: 'Karma', serif;
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: #ccc;
-    margin: 2.5rem 0;
+    font-size: 1.15rem;
+    line-height: 2.1;
+    color: #d1d1d1;
+    text-align: center;
+    max-width: 750px;
+    margin: 0 auto;
 }
 
 .project-detail-description p {
-    margin-bottom: 1.5rem;
+    margin-bottom: 3rem;
 }
 
 .project-detail-hero-img-wrap {
@@ -737,17 +746,19 @@ body {
     min-height: 300px;
     background-size: cover;
     background-position: center;
-    background-color: #111;
-    border-bottom: 1px solid var(--border-color, #222);
-    margin-bottom: 4rem;
+    background-color: var(--bg-color);
+    margin-bottom: 3rem;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
 }
 
 .project-inline-img-wrap {
     width: 100%;
-    margin: 3rem 0;
-    border: 1px solid var(--border-color, #222);
-    background: #111;
+    margin: 4.5rem 0;
+    border: 1px solid var(--border-color);
+    background: var(--box-bg);
     overflow: hidden;
+    border-radius: 4px;
 }
 
 .project-inline-img-wrap img {
