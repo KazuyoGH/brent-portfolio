@@ -38,7 +38,7 @@
         <div id="proj-tags" class="project-detail-tags"></div>
 
         <div class="project-detail-description" id="proj-desc"></div>
-        
+
     </main>
 
 
@@ -75,14 +75,12 @@
                 .split('\n\n')
                 .map(block => {
                     block = block.trim();
-                    // Fixed regex matching ![alt text](image_path)
-                    const imgMatch = block.match(/^!$(.*?)$\((.*?)\)$/);
-                    if (imgMatch) {
-                        const altText = imgMatch;
-                        const imgPath = imgMatch; // uses whatever path you put in YAML
-                        return `<div class="project-inline-img-wrap"><img src="../${imgPath.replace(/^\.\//, '')}" alt="${altText}"></div>`;
+                    if (!block) return '';
+                    if (block.endsWith('.png') || block.endsWith('.jpg') || block.endsWith('.jpeg') || block.endsWith('.webp')) {
+                        const cleanPath = block.replace(/^(\.\/|\/)/, '');
+                        return `<div class="project-inline-img-wrap"><img src="../${cleanPath}" alt="Project Detail Image"></div>`;
                     }
-                    // Otherwise treat as a normal text paragraph
+
                     return `<p>${block}</p>`;
                 })
                 .join('');
