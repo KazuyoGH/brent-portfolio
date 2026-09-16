@@ -1,3 +1,16 @@
+const lenis = new Lenis({
+    duration: 1.2,            // how long the ease lasts (higher = slower)
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
+    smoothWheel: true,        // enable mouse wheel smoothing
+});
+
+function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+}
+
+requestAnimationFrame(raf);
+
 // --- Initial loading sequence ---
 async function startLoadingSequence() {
     const textEl = document.getElementById('loader-text');
