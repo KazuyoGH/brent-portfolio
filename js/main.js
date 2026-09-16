@@ -1,16 +1,3 @@
-const lenis = new Lenis({
-    duration: 1.5,
-    easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic — soft deceleration
-    smoothWheel: true,
-});
-
-function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-}
-
-requestAnimationFrame(raf);
-
 // --- Initial loading sequence ---
 async function startLoadingSequence() {
     const textEl = document.getElementById('loader-text');
