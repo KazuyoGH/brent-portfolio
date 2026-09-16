@@ -1,8 +1,8 @@
 - slug: awesome-project-1
   title: "The Awesome Project"
   subtitle: "A Design Development Identity"
-  thumbnail: "images/project-1.png"
-  cover_image: "images/project-1.png"
+  thumbnail: "images/project-1.webp"
+  cover_image: "images/project-1.webp"
   tags:
     - Branding
     - Marketing
