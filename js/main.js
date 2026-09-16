@@ -1,5 +1,5 @@
 const lenis = new Lenis({
-    duration: 1.2,            // how long the ease lasts (higher = slower)
+    duration: 0.2,            // how long the ease lasts (higher = slower)
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
     smoothWheel: true,        // enable mouse wheel smoothing
 });
