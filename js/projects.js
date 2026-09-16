@@ -1,4 +1,4 @@
-// projects.html
+// js/projects.js
 async function loadProjectsData() {
     try {
         // Fetch projects and featured list simultaneously

@@ -1,4 +1,4 @@
-<!-- projects/template.html-->
+<!-- projects/template.html -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,28 +7,110 @@
     <title id="page-title">Project Details</title>
     <link rel="stylesheet" href="../css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <style>
+        /* Specific enhancements for the dynamic template matching your design */
+        .project-cover-banner {
+            width: 100%;
+            height: 45vh;
+            min-height: 300px;
+            background-size: cover;
+            background-position: center;
+            background-color: #080808;
+            margin-bottom: 0;
+            /* Mask gradient to fade smoothly into the background */
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+        }
+
+        .project-detail-main {
+            max-width: 900px;
+            margin: 2vh auto 15vh auto;
+            padding: 0 4vw;
+        }
+
+        .project-detail-heading {
+            font-family: 'Six Caps', sans-serif;
+            font-size: clamp(5rem, 12vw, 9rem);
+            line-height: 0.9;
+            margin-bottom: 0.2rem;
+            color: var(--text-primary);
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .project-detail-sub {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-family: 'Karma', serif;
+        }
+
+        .project-detail-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 4rem;
+        }
+
+        .project-tag-pill {
+            font-size: 0.85rem;
+            border: 1px solid var(--border-color);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            color: var(--text-secondary);
+            background: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        .project-detail-description {
+            font-family: 'Karma', serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #d1d1d1;
+        }
+
+        .project-detail-description p {
+            margin-bottom: 2rem;
+        }
+
+        .project-inline-img-wrap {
+            width: 100%;
+            margin: 3.5rem 0;
+            border: 1px solid var(--border-color);
+            background: var(--box-bg);
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .project-inline-img-wrap img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Navbar placeholder matching your design -->
+    <!-- Sticky Site Header matching your home page layout -->
     <header class="site-header">
         <nav class="nav-left">
-            <a href="../index.html" class="active">home</a>
-            <a href="../projects.html">projects</a>
-            <a href="../blog.html">blog</a>
+            <a href="../index.html">home</a>
+            <a href="../index.html#projects">projects</a>
+            <a href="../index.html#blog">blog</a>
         </nav>
 
         <div class="site-logo-icon">
-            <a href="index.html">
+            <a href="../index.html">
                 <img src="../images/logo-icon.webp" alt="Logo" class="nav-icon-img">
             </a>
         </div>
 
         <div class="nav-right">
-            <a href="contact.html" class="pill-btn">lets connect</a>
+            <a href="mailto:feirbrent@gmail.com" class="pill-btn">lets connect</a>
         </div>
     </header>
 
+    <!-- Cover Banner Image -->
     <div id="proj-cover" class="project-cover-banner"></div>
 
     <main class="project-detail-main">
@@ -38,60 +120,72 @@
         <div id="proj-tags" class="project-detail-tags"></div>
 
         <div class="project-detail-description" id="proj-desc"></div>
-
     </main>
-
 
     <script>
         async function loadSingleProject() {
             const params = new URLSearchParams(window.location.search);
             const slug = params.get('slug');
 
-            const res = await fetch('../data/projects.yml');
-            const text = await res.text();
-            const projects = jsyaml.load(text) || [];
+            try {
+                const res = await fetch('../data/projects.yml');
+                const text = await res.text();
+                const projects = jsyaml.load(text) || [];
 
-            const project = projects.find(p => p.slug === slug);
+                const project = projects.find(p => p.slug === slug);
 
-            if (!project) {
-                document.body.innerHTML = '<h2 style="text-align:center; margin-top:20vh; color:#fff;">Project not found.</h2>';
-                return;
+                if (!project) {
+                    document.body.innerHTML = '<h2 style="text-align:center; margin-top:20vh; color:#fff; font-family:\'Karma\',serif;">Project not found.</h2>';
+                    return;
+                }
+
+                // Populate Text Metadata
+                document.getElementById('page-title').textContent = `${project.title} — Brent Feir`;
+                document.getElementById('proj-title').textContent = project.title;
+                document.getElementById('proj-subtitle').textContent = project.subtitle || '';
+
+                // Handle Cover Image Banner
+                if (project.cover_image) {
+                    const cleanCoverPath = project.cover_image.replace(/^(\.\/|\/)/, '');
+                    document.getElementById('proj-cover').style.backgroundImage = `url('../${cleanCoverPath}')`;
+                }
+
+                // Render Tags
+                if (project.tags && Array.isArray(project.tags)) {
+                    document.getElementById('proj-tags').innerHTML = project.tags
+                        .map(t => `<span class="project-tag-pill">${t}</span>`).join('');
+                }
+
+                // Parse Description Content and Inline Images
+                const descContainer = document.getElementById('proj-desc');
+                if (project.description) {
+                    const parsedHTML = project.description
+                        .split('\n\n')
+                        .map(block => {
+                            block = block.trim();
+                            if (!block) return '';
+                            
+                            // Check if block is an image path
+                            if (block.endsWith('.png') || block.endsWith('.jpg') || block.endsWith('.jpeg') || block.endsWith('.webp')) {
+                                const cleanPath = block.replace(/^(\.\/|\/)/, '');
+                                return `<div class="project-inline-img-wrap"><img src="../${cleanPath}" alt="Project Detail Image" loading="lazy"></div>`;
+                            }
+
+                            return `<p>${block}</p>`;
+                        })
+                        .join('');
+
+                    descContainer.innerHTML = parsedHTML;
+                }
+
+            } catch (error) {
+                console.error('Error loading project details:', error);
+                document.getElementById('proj-title').textContent = "Error Loading Project";
             }
-
-            document.getElementById('page-title').textContent = project.title;
-            document.getElementById('proj-title').textContent = project.title;
-            document.getElementById('proj-subtitle').textContent = project.subtitle;
-
-            if (project.cover_image) {
-                document.getElementById('proj-cover').style.backgroundImage = `url('../${project.cover_image}')`;
-            }
-
-            document.getElementById('proj-tags').innerHTML = project.tags
-                .map(t => `<span class="project-tag-pill">${t}</span>`).join('');
-
-            // Parse description text and convert markdown-style images ![alt](url) into HTML tags
-            const descContainer = document.getElementById('proj-desc');
-            const parsedHTML = project.description
-                .split('\n\n')
-                .map(block => {
-                    block = block.trim();
-                    if (!block) return '';
-                    if (block.endsWith('.png') || block.endsWith('.jpg') || block.endsWith('.jpeg') || block.endsWith('.webp')) {
-                        const cleanPath = block.replace(/^(\.\/|\/)/, '');
-                        return `<div class="project-inline-img-wrap"><img src="../${cleanPath}" alt="Project Detail Image"></div>`;
-                    }
-
-                    return `<p>${block}</p>`;
-                })
-                .join('');
-
-            descContainer.innerHTML = parsedHTML;
         }
 
         document.addEventListener('DOMContentLoaded', loadSingleProject);
     </script>
-
-
 
     <footer class="site-footer">
         <p>&copy; 2026 Brent Feir</p>
