@@ -689,72 +689,86 @@ body {
     padding: 2rem 0;
 }
 
-/* Project Detail View (Desktop - 3 style) */
+/* =========================================
+   PROJECT DETAIL PAGE STYLES (UPDATED)
+   ========================================= */
+
+/* Fade-to-black cover banner image */
+.project-cover-banner {
+    width: 100%;
+    height: 40vh;
+    min-height: 250px;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--bg-color);
+    margin-bottom: 2.5rem;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+}
+
+/* 1. Header Info Container (Left-aligned, tighter bounds) */
 .project-detail-main {
-    max-width: 850px;
-    margin: 0 auto 15vh auto;
+    max-width: 900px;
+    margin: 0 auto;
     padding: 0 4vw;
     text-align: left;
 }
 
 .project-detail-heading {
     font-family: 'Six Caps', sans-serif;
-    font-size: clamp(5rem, 12vw, 9rem);
+    /* Scaled down so it doesn't take up the entire viewport */
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
     line-height: 0.9;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.5rem;
     color: var(--text-primary);
     letter-spacing: 0.02em;
     text-transform: uppercase;
 }
 
 .project-detail-sub {
-    font-size: 1.15rem;
+    font-size: 1rem;
     color: var(--text-secondary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
     font-family: 'Karma', serif;
 }
 
+.project-detail-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.6rem;
+    margin-bottom: 4rem; /* Generous gap separating header from body */
+}
+
+.project-tag-pill {
+    font-size: 0.8rem;
+    border: 1px solid var(--border-color);
+    padding: 0.3rem 1rem;
+    border-radius: 50px;
+    color: var(--text-secondary);
+    background: transparent;
+    letter-spacing: 0.5px;
+}
+
+/* 2. Description Container (Isolated, Left-justified, comfortable reading width) */
 .project-detail-description {
+    max-width: 700px; /* Keeps line lengths comfortable */
+    margin: 0 auto 15vh auto; /* Centers the text block on the page, lots of bottom space */
+    padding: 0 4vw;
     font-family: 'Karma', serif;
-    font-size: 1.15rem;
-    line-height: 2.1;
-    color: #d1d1d1;
-    text-align: center;
-    max-width: 750px;
-    margin: 0 auto;
+    font-size: 1.05rem;
+    line-height: 2;
+    color: #cccccc;
+    text-align: left; /* Left justified */
 }
 
 .project-detail-description p {
-    margin-bottom: 3rem;
-}
-
-.project-detail-hero-img-wrap {
-    width: 100%;
-    margin-top: 3rem;
-    border: 1px solid var(--border-color, #222);
-}
-
-.project-detail-hero-img-wrap img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.project-cover-banner {
-    width: 100%;
-    height: 45vh;
-    min-height: 300px;
-    background-size: cover;
-    background-position: center;
-    background-color: var(--bg-color);
-    margin-bottom: 3rem;
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+    margin-bottom: 2.5rem;
 }
 
 .project-inline-img-wrap {
     width: 100%;
-    margin: 4.5rem 0;
+    margin: 4rem 0;
     border: 1px solid var(--border-color);
     background: var(--box-bg);
     overflow: hidden;
