@@ -1,6 +1,6 @@
 const lenis = new Lenis({
-    duration: 0.2,
-    easing: (t) => t * (2 - t),
+    duration: 1.5,
+    easing: (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t), // easeInOutQuad
     smoothWheel: true,
 });
 
