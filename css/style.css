@@ -42,20 +42,18 @@
         align-items: center;
         padding: 2.5rem 0;
         margin-bottom: 4rem;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
 
-        /* --- Sticky --- */
         position: sticky;
         top: 0;
         z-index: 100;
 
-        /* --- Fade-out background --- */
-        /* Solid at the top, transparent at the bottom so it blends into the hero */
         background: linear-gradient(to bottom,
                 #080808 0%,
                 #080808 60%,
                 transparent 100%);
 
-        /* Pull the header edge-to-edge across the body padding so the gradient feels continuous */
         margin-left: -4vw;
         margin-right: -4vw;
         padding-left: 4vw;
@@ -697,7 +695,7 @@
         width: calc(100% + 8vw);
         margin-left: -4vw;
         margin-right: -4vw;
-        margin-top: -2.5rem;
+        margin-top: 0;
         height: 45vh;
         min-height: 300px;
         background-size: cover;
@@ -718,7 +716,7 @@
 
     .project-detail-heading {
         font-family: 'Six Caps', sans-serif;
-        font-size: clamp(3.5rem, 8vw, 6.5rem);
+        font-size: 1.25rem;
         line-height: 0.9;
         margin-bottom: 0.5rem;
         color: var(--text-primary);
