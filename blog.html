@@ -17,9 +17,9 @@
 
     <header class="site-header">
         <nav class="nav-left">
-            <a href="index.html" class="active">home</a>
+            <a href="index.html">home</a>
             <a href="projects.html">projects</a>
-            <a href="blog.html">blog</a>
+            <a href="blog.html" class="active">blog</a>
         </nav>
 
         <div class="site-logo-icon">
@@ -34,7 +34,7 @@
     </header>
 
     <main class="blog-section">
-        <h1 class="section-title">RECENT BLOG</h1>
+        <h1 class="section-title">RECENT BLOG POSTS</h1>
         <div id="blog-list" class="blog-list"></div>
     </main>
 
@@ -49,6 +49,23 @@
             <a href="https://www.instagram.com/creativelyby.brent/" target="_blank">instagram</a>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('.copy-email-btn');
+            if (!btn) return;
+
+            navigator.clipboard.writeText(btn.dataset.email)
+                .then(() => {
+                    const orig = btn.textContent;
+                    btn.textContent = 'copied!';
+                    setTimeout(() => btn.textContent = orig, 2000);
+                })
+                .catch(() => {
+                    alert('Could not copy email address.');
+                });
+        });
+    </script>
 </body>
 
 </html>

@@ -49,6 +49,21 @@
     </footer>
 
     <script>
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('.copy-email-btn');
+            if (!btn) return;
+
+            navigator.clipboard.writeText(btn.dataset.email)
+                .then(() => {
+                    const orig = btn.textContent;
+                    btn.textContent = 'copied!';
+                    setTimeout(() => btn.textContent = orig, 2000);
+                })
+                .catch(() => {
+                    alert('Could not copy email address.');
+                });
+        });
+        
         async function loadBlogPost() {
             const slug = new URLSearchParams(window.location.search).get('slug');
 
