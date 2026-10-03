@@ -284,6 +284,16 @@ body {
 }
 
 /* Footer */
+.marquee {
+    width: calc(100% + 8vw);
+    margin-left: -4vw;
+    overflow: hidden;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.65rem 0;
+    background: var(--bg-color);
+}
+
 .marquee-track {
     display: flex;
     width: max-content;

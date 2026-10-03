@@ -96,9 +96,9 @@
     <script>
         (function () {
             const track = document.querySelector('.marquee-track');
-            if (!track) return;
+            if (!track || !track.children) return;
             let pos = 0;
-            const speed = 0.8; // pixels per frame — lower = slower
+            const speed = 0.8;
 
             function loop() {
                 pos -= speed;
