@@ -293,7 +293,7 @@ startLoadingSequence();
             setTimeout(() => el.remove(), 700);
         }
     }
-}
+
 
 // ── Scroll reveal: major sections fade + blur in ──
 function initScrollReveal() {
