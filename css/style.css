@@ -292,31 +292,31 @@ body {
     border-bottom: 1px solid var(--border-color);
     padding: 0.65rem 0;
     background: var(--bg-color);
-    position: relative;
-    z-index: 5;
 }
 
 .scroll-marquee-track {
     display: flex;
     width: max-content;
-    animation: marquee-scroll 20s linear infinite;
+    animation: marquee-scroll 25s linear infinite;
     will-change: transform;
 }
 
 .scroll-marquee-group {
-    flex: 0 0 auto;
+    flex: 0 0 100vw;
+    width: 100vw;
     display: flex;
-    width: max-content;
+    align-items: center;
+    white-space: nowrap;
 }
 
 .scroll-marquee-group span {
+    flex: 0 0 auto;
     white-space: nowrap;
+    padding-right: 3rem;
     font-family: "Six Caps", sans-serif;
     font-size: clamp(1.6rem, 3.5vw, 2.8rem);
-    text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--text-primary);
-    padding-right: 3rem;
 }
 
 @keyframes marquee-scroll {
@@ -333,8 +333,6 @@ body {
         animation: none;
     }
 }
-
-
 
 .site-footer {
     padding: 3rem 4vw;
