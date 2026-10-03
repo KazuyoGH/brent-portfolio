@@ -109,7 +109,6 @@
         <div class="marquee-track">
             <span>☆ CONNECT WITH BRENT FEIR ☆ COLLABORATE WITH BRENT FEIR ☆ CREATE WITH BRENT FEIR ☆</span>
             <span>☆ CONNECT WITH BRENT FEIR ☆ COLLABORATE WITH BRENT FEIR ☆ CREATE WITH BRENT FEIR ☆</span>
-            <span>☆ CONNECT WITH BRENT FEIR ☆ COLLABORATE WITH BRENT FEIR ☆ CREATE WITH BRENT FEIR ☆</span>
         </div>
     </div>
 
@@ -125,6 +124,24 @@
     <script src="js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
     <script src="js/projects.js"></script>
+
+    <script>
+        (function () {
+            const track = document.querySelector('.marquee-track');
+            if (!track) return;
+            let pos = 0;
+            const speed = 0.8; // pixels per frame — lower = slower
+
+            function loop() {
+                pos -= speed;
+                const spanW = track.children.offsetWidth;
+                if (Math.abs(pos) >= spanW) pos += spanW;
+                track.style.transform = `translateX(${pos}px)`;
+                requestAnimationFrame(loop);
+            }
+            loop();
+        })();
+    </script>
 </body>
 
 </html>
