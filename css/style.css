@@ -297,16 +297,14 @@ body {
 .scroll-marquee-track {
     display: flex;
     width: max-content;
-    animation: marquee-scroll 25s linear infinite;
+    animation: marquee-scroll 20s linear infinite;
     will-change: transform;
 }
 
 .scroll-marquee-group {
-    flex: 0 0 100vw;
-    width: 100vw;
+    flex: 0 0 auto;
     display: flex;
-    align-items: center;
-    white-space: nowrap;
+    width: max-content;
 }
 
 .scroll-marquee-group span {
@@ -320,9 +318,6 @@ body {
 }
 
 @keyframes marquee-scroll {
-    from {
-        transform: translateX(0);
-    }
     to {
         transform: translateX(-50%);
     }
@@ -333,6 +328,7 @@ body {
         animation: none;
     }
 }
+
 
 .site-footer {
     padding: 3rem 4vw;
