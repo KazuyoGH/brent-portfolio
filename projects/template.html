@@ -144,19 +144,25 @@
     <script>
         (function () {
             const track = document.getElementById('track');
-            if (!track) return;
+            if (!track || !track.children) return;
+
+            const originalSpan = track.children;
+
+            const singleW = originalSpan.offsetWidth;
+            const viewportW = window.innerWidth;
+            const copiesNeeded = Math.ceil(viewportW / singleW) + 3;
+
+            while (track.children.length < copiesNeeded) {
+                track.appendChild(originalSpan.cloneNode(true));
+            }
 
             let pos = 0;
             const speed = 1.5;
+            const segmentWidth = singleW;
 
             function loop() {
                 pos -= speed;
-                const segmentWidth = track.scrollWidth / 2;
-
-                if (Math.abs(pos) >= segmentWidth) {
-                    pos = 0; // Snap back to 0 exactly
-                }
-
+                if (Math.abs(pos) >= segmentWidth) pos = 0;
                 track.style.transform = `translateX(${pos}px)`;
                 requestAnimationFrame(loop);
             }
