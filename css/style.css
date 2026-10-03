@@ -290,25 +290,27 @@ body {
     overflow: hidden;
     border-top: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
-    padding: 0.65rem 0;
     background: var(--bg-color);
+}
+
+.marquee-wrapper {
+    display: flex;
+    width: fit-content;
 }
 
 .marquee-track {
     display: flex;
-    width: max-content;
-    will-change: transform;
+    white-space: nowrap;
 }
 
 .marquee-track span {
-    flex-shrink: 0;
-    white-space: nowrap;
     padding-right: 3rem;
     font-family: "Six Caps", sans-serif;
     font-size: clamp(1.6rem, 3.5vw, 2.8rem);
     letter-spacing: 0.08em;
     color: var(--text-primary);
 }
+
 
 .site-footer {
     padding: 3rem 4vw;

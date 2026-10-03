@@ -101,9 +101,11 @@
     </script>
 
     <div class="marquee">
-        <div class="marquee-track">
-            <span>☆ CONNECT WITH BRENT FEIR ☆ COLLABORATE WITH BRENT FEIR ☆ CREATE WITH BRENT FEIR ☆</span>
-            <span>☆ CONNECT WITH BRENT FEIR ☆ COLLABORATE WITH BRENT FEIR ☆ CREATE WITH BRENT FEIR ☆</span>
+        <div class="marquee-wrapper">
+            <div class="marquee-track" id="track">
+                <span>☆ CONNECT WITH BRENT FEIR ☆ COLLABORATE WITH BRENT FEIR ☆ CREATE WITH BRENT FEIR ☆</span>
+                <span>☆ CONNECT WITH BRENT FEIR ☆ COLLABORATE WITH BRENT FEIR ☆ CREATE WITH BRENT FEIR ☆</span>
+            </div>
         </div>
     </div>
 
@@ -141,21 +143,27 @@
     </script>
     <script>
         (function () {
-            const track = document.querySelector('.marquee-track');
-            if (!track || !track.children) return;
+            const track = document.getElementById('track');
+            if (!track) return;
+
             let pos = 0;
-            const speed = 0.8;
+            const speed = 1.5;
 
             function loop() {
                 pos -= speed;
-                const spanW = track.children.offsetWidth;
-                if (Math.abs(pos) >= spanW) pos += spanW;
+                const segmentWidth = track.scrollWidth / 2;
+
+                if (Math.abs(pos) >= segmentWidth) {
+                    pos = 0; // Snap back to 0 exactly
+                }
+
                 track.style.transform = `translateX(${pos}px)`;
                 requestAnimationFrame(loop);
             }
             loop();
         })();
     </script>
+
 </body>
 
 </html>
