@@ -63,7 +63,7 @@
                     alert('Could not copy email address.');
                 });
         });
-        
+
         async function loadBlogPost() {
             const slug = new URLSearchParams(window.location.search).get('slug');
 
@@ -113,6 +113,13 @@
         }
 
         document.addEventListener('DOMContentLoaded', loadBlogPost);
+
+        document.addEventListener('click', function (e) {
+            const link = e.target.closest('nav a');
+            if (link) {
+                sessionStorage.setItem('internalNav', 'true');
+            }
+        });
     </script>
 </body>
 

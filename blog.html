@@ -65,6 +65,13 @@
                     alert('Could not copy email address.');
                 });
         });
+        
+        document.addEventListener('click', function (e) {
+            const link = e.target.closest('nav a');
+            if (link) {
+                sessionStorage.setItem('internalNav', 'true');
+            }
+        });
     </script>
 </body>
 

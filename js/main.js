@@ -1,8 +1,22 @@
 // js/main.js
+
+const fromInternalNav = sessionStorage.getItem('internalNav') === 'true';
+if (fromInternalNav) {
+    sessionStorage.removeItem('internalNav');
+}
+
 async function startLoadingSequence() {
+    // ── Skip loader animation if navigated internally ──
+    if (fromInternalNav) {
+        document.getElementById('loader')?.remove();
+        initScrollReveal();
+        initSubtitleCycle();
+        return;
+    }
+
     const textEl = document.getElementById('loader-text');
     const loader = document.getElementById('loader');
-    const sentence = "hey, glad to have you here! my name is..";
+    const sentence = "glad to have you here! my name is..";
 
     textEl.textContent = sentence;
 
@@ -33,143 +47,143 @@ async function startLoadingSequence() {
 // Run immediately
 startLoadingSequence();
 
-const header = document.querySelector('.site-header');
-const effectLayer = document.createElement('div');
-effectLayer.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
-`;
-document.body.appendChild(effectLayer);
+if (!fromInternalNav) {
+    const header = document.querySelector('.site-header');
+    const effectLayer = document.createElement('div');
+    effectLayer.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+    `;
+    document.body.appendChild(effectLayer);
 
+    const hero = document.getElementById('hero-interactive');
 
-const hero = document.getElementById('hero-interactive');
+    const MAX_ELEMENTS = 60;
 
-const MAX_ELEMENTS = 60;
+    const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff3300', '#00ff66', '#ffffff'];
+    const glitchChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&?!<>+*=';
+    const codeSnippets = [
+        '<div>', '</div>', 'class="hero"', 'const', 'import',
+        'style.css', 'main.js', 'index.html', 'function()',
+        '->', '===', '{ }', 'padding: 4vw;', 'portfolio'
+    ];
 
-const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff3300', '#00ff66', '#ffffff'];
-const glitchChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&?!<>+*=';
-const codeSnippets = [
-    '<div>', '</div>', 'class="hero"', 'const', 'import',
-    'style.css', 'main.js', 'index.html', 'function()',
-    '->', '===', '{ }', 'padding: 4vw;', 'portfolio'
-];
+    // --- Distance-based spawning ---
+    const SPAWN_DISTANCE = 25;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+    let accumulatedDistance = 0;
 
-// --- Distance-based spawning ---
-const SPAWN_DISTANCE = 25;
-let lastMouseX = 0;
-let lastMouseY = 0;
-let accumulatedDistance = 0;
+    const heroTitle = document.querySelector('#hero-interactive h1');
+    heroTitle.style.transition = 'filter 0.08s linear';
+    let targetRotateX = 0;
+    let targetRotateY = 0;
+    let currentRotateX = 0;
+    let currentRotateY = 0;
+    let prevRotateX = 0;
+    let prevRotateY = 0;
 
-const heroTitle = document.querySelector('#hero-interactive h1');
-heroTitle.style.transition = 'filter 0.08s linear';
-let targetRotateX = 0;
-let targetRotateY = 0;
-let currentRotateX = 0;
-let currentRotateY = 0;
-let prevRotateX = 0;
-let prevRotateY = 0;
+    document.addEventListener('mousemove', (e) => {
+        if (heroTitle) {
+            const rect = heroTitle.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
 
-document.addEventListener('mousemove', (e) => {
-    if (heroTitle) {
-        const rect = heroTitle.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
+            const deltaX = (e.clientX - centerX) / (rect.width / 2);
+            const deltaY = (e.clientY - centerY) / (rect.height / 2);
 
-        const deltaX = (e.clientX - centerX) / (rect.width / 2);
-        const deltaY = (e.clientY - centerY) / (rect.height / 2);
+            targetRotateY = deltaX * 12;
+            targetRotateX = deltaY * -12;
+        }
 
-        targetRotateY = deltaX * 12;
-        targetRotateX = deltaY * -12;
+        // ── Trail spawn across the whole page ──
+        const mousePageY = e.clientY + window.scrollY;
+        const docHeight = Math.max(
+            document.body.scrollHeight, document.documentElement.scrollHeight,
+            document.body.offsetHeight, document.documentElement.offsetHeight,
+            document.body.clientHeight, document.documentElement.clientHeight
+        );
+
+        const isInZone = e.clientY >= 0 && e.clientY <= window.innerHeight &&
+            e.clientX >= 0 && e.clientX <= window.innerWidth;
+
+        if (!isInZone) return;
+
+        const dx = e.pageX - lastMouseX;
+        const dy = mousePageY - lastMouseY;
+        accumulatedDistance += Math.sqrt(dx * dx + dy * dy);
+
+        if (accumulatedDistance < SPAWN_DISTANCE) return;
+
+        accumulatedDistance = 0;
+        lastMouseX = e.pageX;
+        lastMouseY = mousePageY;
+
+        while (effectLayer.children.length > MAX_ELEMENTS) {
+            effectLayer.firstChild.remove();
+        }
+
+        const count = Math.floor(Math.random() * 2) + 2;
+        spawnGlowOrb(e.clientX, e.clientY);
+        for (let i = 0; i < count; i++) {
+            const offsetX = (Math.random() - 0.5) * 30;
+            const offsetY = (Math.random() - 0.5) * 30;
+            spawnTrailElement(e.clientX + offsetX, e.clientY + offsetY);
+        }
+    });
+
+    function animateParallax() {
+        currentRotateX += (targetRotateX - currentRotateX) * 0.08;
+        currentRotateY += (targetRotateY - currentRotateY) * 0.08;
+
+        if (heroTitle) {
+            heroTitle.style.transform = `perspective(800px) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`;
+
+            // Move the pseudo-layer opposite to the mouse direction.
+            // The multiplier controls how much "depth" the text appears to have.
+            const depthFactor = 4; // adjust depth intensity here
+            const offsetX = -(targetRotateY / 12) * depthFactor;
+            const offsetY = (targetRotateX / 12) * depthFactor;
+
+            heroTitle.style.setProperty('--extrude-x', `${offsetX}px`);
+            heroTitle.style.setProperty('--extrude-y', `${offsetY}px`);
+
+            // Visual motion — how much rotation changed since last frame
+            const dx = currentRotateX - prevRotateX;
+            const dy = currentRotateY - prevRotateY;
+            const visualSpeed = Math.sqrt(dx * dx + dy * dy);
+
+            // Blur only when the text is actually moving visually
+            const blurAmount = visualSpeed > 0.15
+                ? Math.min(visualSpeed * 2.5, 6)
+                : 0;
+
+            heroTitle.style.filter = `blur(${blurAmount}px)`;
+
+            prevRotateX = currentRotateX;
+            prevRotateY = currentRotateY;
+        }
+
+        requestAnimationFrame(animateParallax);
     }
 
-    // ── Trail spawn across the whole page ──
-    const mousePageY = e.clientY + window.scrollY;
-    const docHeight = Math.max(
-        document.body.scrollHeight, document.documentElement.scrollHeight,
-        document.body.offsetHeight, document.documentElement.offsetHeight,
-        document.body.clientHeight, document.documentElement.clientHeight
-    );
-
-    const isInZone = e.clientY >= 0 && e.clientY <= window.innerHeight &&
-        e.clientX >= 0 && e.clientX <= window.innerWidth;
-
-    if (!isInZone) return;
-
-    const dx = e.pageX - lastMouseX;
-    const dy = mousePageY - lastMouseY;
-    accumulatedDistance += Math.sqrt(dx * dx + dy * dy);
-
-    if (accumulatedDistance < SPAWN_DISTANCE) return;
-
-    accumulatedDistance = 0;
-    lastMouseX = e.pageX;
-    lastMouseY = mousePageY;
-
-    while (effectLayer.children.length > MAX_ELEMENTS) {
-        effectLayer.firstChild.remove();
-    }
-
-    const count = Math.floor(Math.random() * 2) + 2;
-    spawnGlowOrb(e.clientX, e.clientY);
-    for (let i = 0; i < count; i++) {
-        const offsetX = (Math.random() - 0.5) * 30;
-        const offsetY = (Math.random() - 0.5) * 30;
-        spawnTrailElement(e.clientX + offsetX, e.clientY + offsetY);
-    }
-});
-
-function animateParallax() {
-    currentRotateX += (targetRotateX - currentRotateX) * 0.08;
-    currentRotateY += (targetRotateY - currentRotateY) * 0.08;
-
-    if (heroTitle) {
-        heroTitle.style.transform = `perspective(800px) rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`;
-
-        // Move the pseudo-layer opposite to the mouse direction.
-        // The multiplier controls how much "depth" the text appears to have.
-        const depthFactor = 4; // adjust depth intensity here
-        const offsetX = -(targetRotateY / 12) * depthFactor;
-        const offsetY = (targetRotateX / 12) * depthFactor;
-
-        heroTitle.style.setProperty('--extrude-x', `${offsetX}px`);
-        heroTitle.style.setProperty('--extrude-y', `${offsetY}px`);
-
-        // Visual motion — how much rotation changed since last frame
-        const dx = currentRotateX - prevRotateX;
-        const dy = currentRotateY - prevRotateY;
-        const visualSpeed = Math.sqrt(dx * dx + dy * dy);
-
-        // Blur only when the text is actually moving visually
-        const blurAmount = visualSpeed > 0.15
-            ? Math.min(visualSpeed * 2.5, 6)
-            : 0;
-
-        heroTitle.style.filter = `blur(${blurAmount}px)`;
-
-        prevRotateX = currentRotateX;
-        prevRotateY = currentRotateY;
-    }
-
-    requestAnimationFrame(animateParallax);
-}
-
-animateParallax();
+    animateParallax();
 
 
-function spawnGlowOrb(x, y) {
-    const size = 200 + Math.random() * 600;
-    const half = size / 2;
+    function spawnGlowOrb(x, y) {
+        const size = 200 + Math.random() * 600;
+        const half = size / 2;
 
-    const orb = document.createElement('div');
-    const color = colors[Math.floor(Math.random() * colors.length)];
+        const orb = document.createElement('div');
+        const color = colors[Math.floor(Math.random() * colors.length)];
 
-    orb.style.cssText = `
+        orb.style.cssText = `
         position: absolute;
         left: ${x - half}px;
         top: ${y - half}px;
@@ -182,26 +196,26 @@ function spawnGlowOrb(x, y) {
         filter: blur(${30 + Math.random() * 30}px);
         will-change: opacity, filter;
     `;
-    effectLayer.appendChild(orb);
+        effectLayer.appendChild(orb);
 
-    requestAnimationFrame(() => {
-        orb.style.transition = 'opacity 3.5s cubic-bezier(0.1, 1, 0.1, 1), filter 1.8s cubic-bezier(0.1, 1, 0.1, 1)';
-        orb.style.opacity = '0';
-        orb.style.filter = 'blur(140px)';
-    });
+        requestAnimationFrame(() => {
+            orb.style.transition = 'opacity 3.5s cubic-bezier(0.1, 1, 0.1, 1), filter 1.8s cubic-bezier(0.1, 1, 0.1, 1)';
+            orb.style.opacity = '0';
+            orb.style.filter = 'blur(140px)';
+        });
 
-    setTimeout(() => orb.remove(), 3700);
-}
+        setTimeout(() => orb.remove(), 3700);
+    }
 
-function spawnTrailElement(x, y) {
-    const roll = Math.random();
-    const color = colors[Math.floor(Math.random() * colors.length)];
+    function spawnTrailElement(x, y) {
+        const roll = Math.random();
+        const color = colors[Math.floor(Math.random() * colors.length)];
 
-    if (roll < 0.33) {
-        // --- Colored square ---
-        const size = Math.floor(Math.random() * 14) + 14;
-        const el = document.createElement('div');
-        el.style.cssText = `
+        if (roll < 0.33) {
+            // --- Colored square ---
+            const size = Math.floor(Math.random() * 14) + 14;
+            const el = document.createElement('div');
+            el.style.cssText = `
             position: absolute;
             left: ${x - size / 2}px;
             top: ${y - size / 2}px;
@@ -213,19 +227,19 @@ function spawnTrailElement(x, y) {
             opacity: 1;
             will-change: opacity;
         `;
-        effectLayer.appendChild(el);
-        requestAnimationFrame(() => {
-            el.style.transition = 'opacity 0.4s ease-out';
-            el.style.opacity = '0';
-        });
-        setTimeout(() => el.remove(), 450);
+            effectLayer.appendChild(el);
+            requestAnimationFrame(() => {
+                el.style.transition = 'opacity 0.4s ease-out';
+                el.style.opacity = '0';
+            });
+            setTimeout(() => el.remove(), 450);
 
-    } else if (roll < 0.66) {
-        // --- Random glitch character ---
-        const size = Math.floor(Math.random() * 20) + 20;
-        const el = document.createElement('div');
-        el.textContent = glitchChars[Math.floor(Math.random() * glitchChars.length)];
-        el.style.cssText = `
+        } else if (roll < 0.66) {
+            // --- Random glitch character ---
+            const size = Math.floor(Math.random() * 20) + 20;
+            const el = document.createElement('div');
+            el.textContent = glitchChars[Math.floor(Math.random() * glitchChars.length)];
+            el.style.cssText = `
             position: absolute;
             left: ${x - size / 2}px;
             top: ${y - size / 2}px;
@@ -238,20 +252,20 @@ function spawnTrailElement(x, y) {
             opacity: 1;
             will-change: opacity;
         `;
-        effectLayer.appendChild(el);
-        requestAnimationFrame(() => {
-            el.style.transition = 'opacity 0.4s ease-out';
-            el.style.opacity = '0';
-        });
-        setTimeout(() => el.remove(), 450);
+            effectLayer.appendChild(el);
+            requestAnimationFrame(() => {
+                el.style.transition = 'opacity 0.4s ease-out';
+                el.style.opacity = '0';
+            });
+            setTimeout(() => el.remove(), 450);
 
-    } else {
-        // --- Code snippet ---
-        const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-        const fontSize = Math.floor(Math.random() * 12) + 14;
-        const el = document.createElement('div');
-        el.textContent = snippet;
-        el.style.cssText = `
+        } else {
+            // --- Code snippet ---
+            const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+            const fontSize = Math.floor(Math.random() * 12) + 14;
+            const el = document.createElement('div');
+            el.textContent = snippet;
+            el.style.cssText = `
             position: absolute;
             left: ${x + (Math.random() * 40 - 20)}px;
             top: ${y + (Math.random() * 40 - 20)}px;
@@ -264,19 +278,20 @@ function spawnTrailElement(x, y) {
             opacity: 1;
             will-change: opacity, transform;
         `;
-        if (Math.random() > 0.6) {
-            el.style.background = 'rgba(255, 255, 255, 0.05)';
-            el.style.border = `1px solid ${color}`;
-            el.style.padding = '2px 6px';
-            el.style.borderRadius = '3px';
+            if (Math.random() > 0.6) {
+                el.style.background = 'rgba(255, 255, 255, 0.05)';
+                el.style.border = `1px solid ${color}`;
+                el.style.padding = '2px 6px';
+                el.style.borderRadius = '3px';
+            }
+            effectLayer.appendChild(el);
+            requestAnimationFrame(() => {
+                el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                el.style.opacity = '0';
+                el.style.transform = `translate(${(Math.random() - 0.5) * 60}px, ${(Math.random() - 0.5) * 60}px)`;
+            });
+            setTimeout(() => el.remove(), 700);
         }
-        effectLayer.appendChild(el);
-        requestAnimationFrame(() => {
-            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-            el.style.opacity = '0';
-            el.style.transform = `translate(${(Math.random() - 0.5) * 60}px, ${(Math.random() - 0.5) * 60}px)`;
-        });
-        setTimeout(() => el.remove(), 700);
     }
 }
 
