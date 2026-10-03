@@ -721,7 +721,7 @@ body {
 }
 
 .project-detail-heading {
-    font-family: 'Six Caps', sans-serif;
+    font-family: 'Karma', serif;
     font-size: clamp(4rem, 9vw, 8rem);
     font-weight: 400;
     line-height: 0.9;
