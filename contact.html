@@ -1,0 +1,116 @@
+<!-- contact.html-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact — Brent Feir</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Six+Caps&family=Karma:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+</head>
+
+<body>
+
+
+    <header class="site-header">
+        <nav class="nav-left">
+            <a href="index.html">home</a>
+            <a href="projects.html">projects</a>
+            <a href="blog.html">blog</a>
+        </nav>
+
+        <div class="site-logo-icon">
+            <a href="index.html">
+                <img src="images/logo-icon.webp" alt="Logo" class="nav-icon-img">
+            </a>
+        </div>
+
+        <div class="nav-right">
+            <a href="contact.html" class="pill-btn">lets connect</a>
+        </div>
+    </header>
+
+    <main class="contact-page">
+        <img class="contact-portrait" src="images/about.webp" alt="Portrait of Brent">
+
+        <section class="contact-content">
+            <h1 class="contact-title">Connect with me</h1>
+            <p class="contact-subtitle">
+                Have a query in mind? <strong>Let’s get in contact!</strong>
+            </p>
+
+            <div class="contact-links">
+                <a href="https://www.linkedin.com/in/brent-feir/" target="_blank" aria-label="LinkedIn">
+                    <img src="images/LIIcon.svg" alt="LinkedIn">
+                </a>
+
+                <a href="https://www.instagram.com/creativelyby.brent/" target="_blank" aria-label="Instagram">
+                    <img src="images/IGIcon.svg" alt="Instagram">
+                </a>
+
+                <button class="contact-email-btn" id="contact-email-btn" type="button" aria-label="Copy email address">
+                    <img src="images/EMIcon.svg" alt="Email">
+                </button>
+
+                <span class="contact-email-feedback" id="contact-email-feedback" aria-live="polite"></span>
+            </div>
+        </section>
+    </main>
+
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Brent Feir</p>
+        <div class="social-links">
+            <button class="copy-email-btn" id="copyEmailBtn" data-email="feirbrent@gmail.com">email</button>
+            <a href="https://www.linkedin.com/in/brent-feir/" target="_blank">linkedin</a>
+            <a href="https://www.instagram.com/creativelyby.brent/" target="_blank">instagram</a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('.copy-email-btn');
+            if (!btn) return;
+
+            navigator.clipboard.writeText(btn.dataset.email)
+                .then(() => {
+                    const orig = btn.textContent;
+                    btn.textContent = 'copied!';
+                    setTimeout(() => btn.textContent = orig, 2000);
+                })
+                .catch(() => {
+                    alert('Could not copy email address.');
+                });
+        });
+
+        document.addEventListener('click', function (e) {
+            const link = e.target.closest('nav a');
+            if (link) {
+                sessionStorage.setItem('internalNav', 'true');
+            }
+        });
+
+        const contactEmail = "YOUR_EMAIL_ADDRESS";
+        const copyEmailButton = document.getElementById("contact-email-btn");
+        const emailFeedback = document.getElementById("contact-email-feedback");
+
+        copyEmailButton.addEventListener("click", async () => {
+            try {
+                await navigator.clipboard.writeText(contactEmail);
+                emailFeedback.textContent = "Email Copied!";
+
+                setTimeout(() => {
+                    emailFeedback.textContent = "";
+                }, 2000);
+            } catch (error) {
+                emailFeedback.textContent = "Could not copy email address.";
+            }
+        });
+    </script>
+
+</body>
+
+</html>

@@ -912,6 +912,94 @@ body {
     margin: 0 0 24px;
 }
 
+.contact-page {
+    min-height: calc(100vh - 100px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 8vw;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 0;
+}
+
+.contact-portrait {
+    display: block;
+    width: 100%;
+    height: min(65vh, 700px);
+    object-fit: cover;
+    object-position: center 20%;
+}
+
+.contact-content {
+    text-align: center;
+}
+
+.contact-title {
+    font-family: "Six Caps", sans-serif;
+    font-size: clamp(5rem, 9vw, 8rem);
+    font-weight: 400;
+    line-height: 0.9;
+    text-transform: uppercase;
+}
+
+.contact-subtitle {
+    margin-top: 1.5rem;
+    font-family: "Karma", serif;
+}
+
+.contact-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    margin-top: 6rem;
+    flex-wrap: wrap;
+}
+
+.contact-links a,
+.contact-email-btn {
+    color: var(--text-primary);
+}
+
+.contact-email-btn {
+    display: inline-flex;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+
+.contact-links svg {
+    width: 42px;
+    height: 42px;
+}
+
+.contact-email-feedback {
+    flex-basis: 100%;
+    min-height: 1.5em;
+    margin-top: -1.5rem;
+    font-family: "Karma", serif;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 700px) {
+    .contact-page {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        padding: 2rem 0 4rem;
+    }
+
+    .contact-portrait {
+        height: 55vh;
+    }
+
+    .contact-links {
+        margin-top: 3rem;
+    }
+}
+
 
 @media (max-width: 700px) {
     .blog-section {
