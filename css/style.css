@@ -295,12 +295,14 @@ body {
 }
 
 .scroll-marquee-track {
-    display: inline-flex;
-    white-space: nowrap;
+    display: flex;
+    width: max-content;
     animation: marquee-scroll 20s linear infinite;
 }
 
 .scroll-marquee-track span {
+    flex-shrink: 0;
+    white-space: nowrap;
     padding-right: 3rem;
     font-family: "Six Caps", sans-serif;
     font-size: clamp(1.6rem, 3.5vw, 2.8rem);
@@ -309,9 +311,6 @@ body {
 }
 
 @keyframes marquee-scroll {
-    from {
-        transform: translateX(0);
-    }
     to {
         transform: translateX(-50%);
     }
