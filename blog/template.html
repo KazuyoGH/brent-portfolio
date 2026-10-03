@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog — Brent Feir</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav-left">
+            <a href="../index.html">home</a>
+            <a href="../projects.html">projects</a>
+            <a href="../blog.html" class="active">blog</a>
+        </nav>
+
+        <div class="site-logo-icon">
+            <a href="../index.html">
+                <img src="../images/logo-icon.webp" alt="Logo" class="nav-icon-img">
+            </a>
+        </div>
+
+        <div class="nav-right">
+            <a href="../contact.html" class="pill-btn">lets connect</a>
+        </div>
+    </header>
+
+    <main class="blog-post">
+        <div id="post-cover" class="blog-post-cover"></div>
+        <article class="blog-post-content">
+            <p id="post-date" class="blog-card-date"></p>
+            <h1 id="post-title"></h1>
+            <div id="post-body" class="blog-post-body"></div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Brent Feir</p>
+        <div class="social-links">
+            <button class="copy-email-btn" id="copyEmailBtn" data-email="feirbrent@gmail.com">email</button>
+            <a href="https://www.linkedin.com/in/brent-feir/" target="_blank" rel="noopener">linkedin</a>
+            <a href="https://www.instagram.com/creativelyby.brent/" target="_blank" rel="noopener">instagram</a>
+        </div>
+    </footer>
+
+    <script>
+        async function loadBlogPost() {
+            const slug = new URLSearchParams(window.location.search).get('slug');
+
+            try {
+                const response = await fetch('../data/blog.yml');
+                if (!response.ok) throw new Error(`Could not load blog.yml: ${response.status}`);
+
+                const posts = jsyaml.load(await response.text()) || [];
+                const post = posts.find(item => item.slug === slug);
+
+                if (!post) {
+                    document.querySelector('.blog-post-content').innerHTML =
+                        '<h1>Blog post not found.</h1><a href="../blog.html">Back to blog</a>';
+                    return;
+                }
+
+                document.title = `${post.title} — Brent Feir`;
+                document.getElementById('post-title').textContent = post.title;
+                document.getElementById('post-date').textContent = post.date || '';
+
+                if (post.thumbnail) {
+                    document.getElementById('post-cover').style.backgroundImage =
+                        `url("../${post.thumbnail}")`;
+                }
+
+                document.getElementById('post-body').innerHTML =
+                    (post.content || '')
+                        .trim()
+                        .split(/\n\s*\n/)
+                        .map(paragraph => `<p>${escapeHTML(paragraph.trim())}</p>`)
+                        .join('');
+            } catch (error) {
+                console.error('Error loading blog post:', error);
+                document.querySelector('.blog-post-content').innerHTML =
+                    '<h1>Could not load this blog post.</h1>';
+            }
+        }
+
+        function escapeHTML(value = '') {
+            return String(value).replace(/[&<>"']/g, char => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            })[char]);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadBlogPost);
+    </script>
+</body>
+</html>

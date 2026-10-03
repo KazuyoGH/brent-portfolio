@@ -1,0 +1,11 @@
+- slug: awesome-blog-post
+  title: "An Awesome Blog Post"
+  date: "September 1, 2026"
+  thumbnail: "images/blog-1.webp"
+  excerpt: "Blah blah blah blah blah blah blah blah blah blah blah blah blah."
+  content: |
+    This is the opening paragraph of the blog post. Replace it with your own writing.
+
+    This is another paragraph. Separate paragraphs with a blank line.
+
+    Add more paragraphs here as needed.
