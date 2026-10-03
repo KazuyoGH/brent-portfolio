@@ -959,24 +959,26 @@ body {
 
 .contact-links a,
 .contact-email-btn {
-    color: var(--text-primary);
-}
-
-.contact-email-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    height: 42px;
     padding: 0;
+    line-height: 0;
+}
+
+.contact-email-btn {
     border: 0;
     background: none;
     cursor: pointer;
 }
 
+.contact-links img,
 .contact-links svg {
-    width: 42px;
+    display: block;
     height: 42px;
+    width: auto;
 }
-
 .contact-email-feedback {
     flex-basis: 100%;
     min-height: 1.5em;
