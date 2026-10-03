@@ -257,6 +257,7 @@ body {
 .projects-header .section-title {
     font-size: clamp(6rem, 14vw, 12rem);
     line-height: 0.9;
+    text-align: right;
 }
 
 .projects-grid {
@@ -411,6 +412,7 @@ body {
     font-size: clamp(6rem, 14vw, 12rem);
     line-height: 0.9;
     margin-bottom: 2rem;
+    text-align: left;
 }
 
 .about-bio {
@@ -765,6 +767,14 @@ body {
 .project-detail-description p {
     margin-bottom: 2.5rem;
 }
+
+.project-detail-main,
+.project-detail-heading,
+.project-detail-sub,
+.project-detail-tags {
+    text-align: left;
+}
+
 
 .project-inline-img-wrap {
     width: 100%;

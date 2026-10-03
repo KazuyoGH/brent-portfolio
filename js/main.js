@@ -47,7 +47,7 @@ async function startLoadingSequence() {
 // Run immediately
 startLoadingSequence();
 
-if (!fromInternalNav) {
+
     const header = document.querySelector('.site-header');
     const effectLayer = document.createElement('div');
     effectLayer.style.cssText = `
