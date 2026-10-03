@@ -60,7 +60,18 @@
             document.getElementById('proj-subtitle').textContent = project.subtitle;
 
             if (project.cover_image) {
-                document.getElementById('proj-cover').style.backgroundImage = `url('../${project.cover_image}')`;
+                const coverUrl = `../${project.cover_image}`;
+                const img = new Image();
+
+                img.onload = () => {
+                    document.getElementById('proj-cover').style.backgroundImage = `url("${coverUrl}")`;
+                };
+
+                img.onerror = () => {
+                    console.error('Could not load cover:', coverUrl);
+                };
+
+                img.src = coverUrl;
             }
 
             document.getElementById('proj-tags').innerHTML = project.tags
