@@ -1,3 +1,4 @@
+// js/blog.js
 async function loadBlogPosts() {
     const container = document.getElementById('blog-list');
     if (!container) return;
