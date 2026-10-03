@@ -1,22 +1,23 @@
-// js/projects.js
-async function loadProjectsData() {
+async function fetchYaml(path) {
+    const response = await fetch(path);
+    if (!response.ok) throw new Error(`Could not load ${path}: ${response.status}`);
+    return jsyaml.load(await response.text());
+}
+
+async function initPortfolio() {
     try {
-        // Fetch projects and featured list simultaneously
-        const [projRes, featRes] = await Promise.all([
-            fetch('../data/projects.yml'),
-            fetch('../data/featured.yml')
-        ]);
-
-        const projText = await projRes.text();
-        const featText = await featRes.text();
-
-        const projects = jsyaml.load(projText) || [];
-        const featuredData = jsyaml.load(featText) || { featured_slugs: [] };
+        // Corrected paths: ensure these match your folder structure
+        // If these files are in a folder named 'data' in your root:
+        const projects = await fetchYaml('data/projects.yml') || [];
+        const featuredData = await fetchYaml('data/featured.yml') || { featured_slugs: [] };
 
         renderFeatured(projects, featuredData.featured_slugs);
-        renderAllProjects(projects);
+        renderAllProjects(projects, 'All');
+        
+        // Cache globally for the filter function
+        window.globalProjectsCache = projects;
     } catch (error) {
-        console.error("Error loading project YAML data:", error);
+        console.error("Error loading project data:", error);
     }
 }
 
@@ -24,19 +25,10 @@ function renderFeatured(projects, featuredSlugs) {
     const container = document.getElementById('featured-grid');
     if (!container) return;
 
-    if (!featuredSlugs || featuredSlugs.length === 0) {
-        container.innerHTML = `<p class="nothing-to-show">nothing to show right now!</p>`;
-        return;
-    }
-
     const featuredProjects = projects.filter(p => featuredSlugs.includes(p.slug));
-
-    if (featuredProjects.length === 0) {
-        container.innerHTML = `<p class="nothing-to-show">nothing to show right now!</p>`;
-        return;
-    }
-
-    container.innerHTML = featuredProjects.map(p => createProjectCardHTML(p)).join('');
+    container.innerHTML = featuredProjects.length > 0 
+        ? featuredProjects.map(p => createProjectCardHTML(p)).join('')
+        : `<p class="nothing-to-show">nothing to show right now!</p>`;
 }
 
 function renderAllProjects(projects, activeTag = 'All') {
@@ -44,10 +36,8 @@ function renderAllProjects(projects, activeTag = 'All') {
     const filtersContainer = document.getElementById('tag-filters');
     if (!gridContainer) return;
 
-    // Extract all unique tags across all projects
     const allTags = ['All', ...new Set(projects.flatMap(p => p.tags))];
 
-    // Render filter buttons matching your design style
     if (filtersContainer) {
         filtersContainer.innerHTML = allTags.map(tag => `
             <button class="tag-switch ${tag === activeTag ? 'active' : ''}" onclick="filterTag('${tag}')">
@@ -56,17 +46,14 @@ function renderAllProjects(projects, activeTag = 'All') {
         `).join('');
     }
 
-    // Filter projects based on selection
-    const filtered = activeTag === 'All' 
-        ? projects 
-        : projects.filter(p => p.tags.includes(activeTag));
-
+    const filtered = activeTag === 'All' ? projects : projects.filter(p => p.tags.includes(activeTag));
     gridContainer.innerHTML = filtered.length > 0 
         ? filtered.map(p => createProjectCardHTML(p)).join('')
         : `<p class="nothing-to-show">No projects found with this tag.</p>`;
 }
 
 function createProjectCardHTML(project) {
+    // Ensure the link points correctly to your projects folder
     return `
         <a href="projects/template.html?slug=${project.slug}" class="project-card">
             <div class="project-image-wrap">
@@ -83,24 +70,8 @@ function createProjectCardHTML(project) {
     `;
 }
 
-
-// Global scope tracker for filters
-let globalProjectsCache = [];
-async function initPortfolio() {
-    const projRes = await fetch('../data/projects.yml');
-    const text = await projRes.text();
-    globalProjectsCache = jsyaml.load(text) || [];
-    
-    const featRes = await fetch('../data/featured.yml');
-    const featText = await featRes.text();
-    const featuredData = jsyaml.load(featText) || { featured_slugs: [] };
-
-    renderFeatured(globalProjectsCache, featuredData.featured_slugs);
-    renderAllProjects(globalProjectsCache, 'All');
-}
-
 window.filterTag = function(tag) {
-    renderAllProjects(globalProjectsCache, tag);
+    renderAllProjects(window.globalProjectsCache, tag);
 };
 
 document.addEventListener('DOMContentLoaded', initPortfolio);
