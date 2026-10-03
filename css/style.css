@@ -284,7 +284,7 @@ body {
 }
 
 /* Footer */
-.scroll-marquee {
+scroll-marquee {
     width: calc(100% + 8vw);
     margin-left: -4vw;
     overflow: hidden;
@@ -297,24 +297,27 @@ body {
 .scroll-marquee-track {
     display: flex;
     width: max-content;
-    animation: marquee-scroll 20s linear infinite;
+    animation: marquee-scroll 22s linear infinite;
     will-change: transform;
 }
 
 .scroll-marquee-group {
     flex: 0 0 auto;
     display: flex;
-    width: max-content;
+    white-space: nowrap;
 }
 
 .scroll-marquee-group span {
     flex: 0 0 auto;
     white-space: nowrap;
-    padding-right: 3rem;
     font-family: "Six Caps", sans-serif;
     font-size: clamp(1.6rem, 3.5vw, 2.8rem);
     letter-spacing: 0.08em;
     color: var(--text-primary);
+}
+
+.scroll-marquee-group {
+    padding-right: 3rem;
 }
 
 @keyframes marquee-scroll {
