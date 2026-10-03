@@ -287,7 +287,6 @@ body {
 .scroll-marquee {
     width: calc(100% + 8vw);
     margin-left: -4vw;
-    margin-right: -4vw;
     overflow: hidden;
     border-top: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
@@ -299,13 +298,18 @@ body {
 
 .scroll-marquee-track {
     display: flex;
-    gap: 0;
     width: max-content;
     animation: marquee-scroll 20s linear infinite;
+    will-change: transform;
 }
 
-.scroll-marquee-track span {
-    display: inline-block;
+.scroll-marquee-group {
+    flex: 0 0 auto;
+    display: flex;
+    width: max-content;
+}
+
+.scroll-marquee-group span {
     white-space: nowrap;
     font-family: "Six Caps", sans-serif;
     font-size: clamp(1.6rem, 3.5vw, 2.8rem);
@@ -316,13 +320,20 @@ body {
 }
 
 @keyframes marquee-scroll {
-    0% {
+    from {
         transform: translateX(0);
     }
-    100% {
+    to {
         transform: translateX(-50%);
     }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-marquee-track {
+        animation: none;
+    }
+}
+
 
 
 .site-footer {
