@@ -101,25 +101,29 @@
 
             const originalSpan = track.children;
 
-            const singleW = originalSpan.offsetWidth;
-            const viewportW = window.innerWidth;
-            const copiesNeeded = Math.ceil(viewportW / singleW) + 3;
+            // Need to wait briefly for the font to render so offsetWidth is accurate
+            requestAnimationFrame(function init() {
+                const singleW = originalSpan.offsetWidth;
+                if (singleW === 0) { setTimeout(() => requestAnimationFrame(init), 50); return; }
 
-            while (track.children.length < copiesNeeded) {
-                track.appendChild(originalSpan.cloneNode(true));
-            }
+                const viewportW = window.innerWidth;
+                const copiesNeeded = Math.ceil(viewportW / singleW) + 3;
 
-            let pos = 0;
-            const speed = 1.5;
-            const segmentWidth = singleW;
+                while (track.children.length < copiesNeeded) {
+                    track.appendChild(originalSpan.cloneNode(true));
+                }
 
-            function loop() {
-                pos -= speed;
-                if (Math.abs(pos) >= segmentWidth) pos = 0;
-                track.style.transform = `translateX(${pos}px)`;
-                requestAnimationFrame(loop);
-            }
-            loop();
+                let pos = 0;
+                const speed = 1.5;
+
+                function loop() {
+                    pos -= speed;
+                    if (Math.abs(pos) >= singleW) pos = 0;
+                    track.style.transform = `translateX(${pos}px)`;
+                    requestAnimationFrame(loop);
+                }
+                loop();
+            });
         })();
     </script>
 
