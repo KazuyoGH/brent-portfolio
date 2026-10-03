@@ -124,7 +124,7 @@
             const track = document.getElementById('track');
             if (!track || !track.children) return;
 
-            const originalSpan = track.children;
+            const originalSpan = track.children[0];
 
             // Need to wait briefly for the font to render so offsetWidth is accurate
             requestAnimationFrame(function init() {
