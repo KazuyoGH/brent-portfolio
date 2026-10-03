@@ -138,12 +138,14 @@
                     track.appendChild(originalSpan.cloneNode(true));
                 }
 
+                const actualSegWidth = track.scrollWidth / track.children.length;
+
                 let pos = 0;
                 const speed = 1.5;
 
                 function loop() {
                     pos -= speed;
-                    if (Math.abs(pos) >= singleW) pos = 0;
+                    if (Math.abs(pos) >= actualSegWidth) pos = 0;
                     track.style.transform = `translateX(${pos}px)`;
                     requestAnimationFrame(loop);
                 }
