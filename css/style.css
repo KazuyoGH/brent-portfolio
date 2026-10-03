@@ -284,7 +284,7 @@ body {
 }
 
 /* Footer */
-.scroll-marquee {
+.marquee {
     width: calc(100% + 8vw);
     margin-left: -4vw;
     overflow: hidden;
@@ -294,13 +294,13 @@ body {
     background: var(--bg-color);
 }
 
-.scroll-marquee-track {
+.marquee-track {
     display: flex;
-    width: max-content;
+    width: fit-content;
     animation: marquee-scroll 20s linear infinite;
 }
 
-.scroll-marquee-track span {
+.marquee-track span {
     flex-shrink: 0;
     white-space: nowrap;
     padding-right: 3rem;
@@ -311,17 +311,12 @@ body {
 }
 
 @keyframes marquee-scroll {
-    to {
-        transform: translateX(-50%);
-    }
+    to { transform: translateX(-50%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .scroll-marquee-track {
-        animation: none;
-    }
+    .marquee-track { animation: none; }
 }
-
 
 .site-footer {
     padding: 3rem 4vw;
