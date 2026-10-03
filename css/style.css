@@ -296,7 +296,7 @@ body {
 
 .marquee-track {
     display: flex;
-    width: fit-content;
+    width: max-content;
     animation: marquee-scroll 20s linear infinite;
 }
 
@@ -311,7 +311,7 @@ body {
 }
 
 @keyframes marquee-scroll {
-    to { transform: translateX(-50%); }
+    to { transform: translateX(-33.333%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
