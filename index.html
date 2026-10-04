@@ -170,44 +170,90 @@
                 return ctx;
             }
 
-            function playHover() {
+            function playWhoosh() {
                 const c = getCtx();
-                const osc = c.createOscillator();
+                const bufferSize = c.sampleRate * 0.2;
+                const buffer = c.createBuffer(1, bufferSize, c.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = (Math.random() * 2 - 1) * 0.5;
+                }
+                const noise = c.createBufferSource();
+                noise.buffer = buffer;
+                const filter = c.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.Q.value = 2;
+                filter.frequency.setValueAtTime(200, c.currentTime);
+                filter.frequency.exponentialRampToValueAtTime(2500, c.currentTime + 0.15);
                 const gain = c.createGain();
-                osc.type = 'sine';
-                osc.frequency.value = 600;
-                gain.gain.setValueAtTime(0.08, c.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.08);
-                osc.connect(gain).connect(c.destination);
-                osc.start();
-                osc.stop(c.currentTime + 0.08);
+                gain.gain.setValueAtTime(0, c.currentTime);
+                gain.gain.linearRampToValueAtTime(0.06, c.currentTime + 0.04);
+                gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.2);
+                noise.connect(filter).connect(gain).connect(c.destination);
+                noise.start();
+                noise.stop(c.currentTime + 0.2);
             }
 
-            function playClick() {
+            function playMouseClick() {
                 const c = getCtx();
-                const osc = c.createOscillator();
-                const gain = c.createGain();
-                osc.type = 'square';
-                osc.frequency.value = 200;
-                osc.frequency.exponentialRampToValueAtTime(80, c.currentTime + 0.06);
-                gain.gain.setValueAtTime(0.1, c.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.08);
-                osc.connect(gain).connect(c.destination);
-                osc.start();
-                osc.stop(c.currentTime + 0.08);
+
+                // Two parts: press + release
+                // Press — short click (lower, solid)
+                const osc1 = c.createOscillator();
+                const gain1 = c.createGain();
+                osc1.type = 'square';
+                osc1.frequency.setValueAtTime(500, c.currentTime);
+                osc1.frequency.exponentialRampToValueAtTime(200, c.currentTime + 0.03);
+                gain1.gain.setValueAtTime(0.12, c.currentTime);
+                gain1.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.04);
+                osc1.connect(gain1).connect(c.destination);
+                osc1.start();
+                osc1.stop(c.currentTime + 0.04);
+
+                // Noise burst for tactile "click" texture
+                const bufSize = c.sampleRate * 0.02;
+                const buf = c.createBuffer(1, bufSize, c.sampleRate);
+                const d = buf.getChannelData(0);
+                for (let i = 0; i < bufSize; i++) d[i] = (Math.random() * 2 - 1);
+                const noise = c.createBufferSource();
+                noise.buffer = buf;
+                const filt = c.createBiquadFilter();
+                filt.type = 'highpass';
+                filt.frequency.value = 3000;
+                const g2 = c.createGain();
+                g2.gain.setValueAtTime(0.15, c.currentTime);
+                g2.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.025);
+                noise.connect(filt).connect(g2).connect(c.destination);
+                noise.start();
+                noise.stop(c.currentTime + 0.025);
+
+                // Release — slightly softer (the "unclick")
+                setTimeout(() => {
+                    const osc2 = c.createOscillator();
+                    const gain3 = c.createGain();
+                    osc2.type = 'sine';
+                    osc2.frequency.setValueAtTime(250, c.currentTime);
+                    osc2.frequency.exponentialRampToValueAtTime(100, c.currentTime + 0.02);
+                    gain3.gain.setValueAtTime(0.06, c.currentTime);
+                    gain3.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.03);
+                    osc2.connect(gain3).connect(c.destination);
+                    osc2.start();
+                    osc2.stop(c.currentTime + 0.03);
+                }, 60);
             }
 
             document.addEventListener('mouseover', e => {
                 const link = e.target.closest('nav a');
-                if (link) playHover();
+                if (link) playWhoosh();
             });
 
             document.addEventListener('click', e => {
                 const link = e.target.closest('nav a');
-                if (link) playClick();
+                if (link) playMouseClick();
             });
         })();
     </script>
+
 
 </body>
 
