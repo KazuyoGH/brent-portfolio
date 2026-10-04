@@ -162,6 +162,19 @@
     </script>
 
     <script>
+        (function () {
+            let unlocked = false;
+            function unlock() {
+                if (unlocked) return;
+                unlocked = true;
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                ctx.resume().then(() => ctx.close());
+            }
+            document.addEventListener('mousedown', unlock, { once: true });
+            document.addEventListener('touchstart', unlock, { once: true });
+            document.addEventListener('keydown', unlock, { once: true });
+        })();
+
         document.addEventListener('mouseenter', e => {
             const link = e.target.closest('nav a, .pill-btn');
             if (!link) return;
@@ -170,15 +183,14 @@
             audio.play().catch(() => { });
         }, true);
 
-        document.addEventListener('click', e => {
+        document.addEventListener('mousedown', e => {
             const link = e.target.closest('nav a, .pill-btn');
             if (!link) return;
             const audio = new Audio('sounds/click.mp3');
             audio.volume = 0.4;
             audio.play().catch(() => { });
-        });
+        }, true);
     </script>
-
 
 </body>
 
