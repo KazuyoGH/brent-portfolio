@@ -161,6 +161,54 @@
         })();
     </script>
 
+    <script>
+        (function () {
+            let ctx;
+
+            function getCtx() {
+                if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+                return ctx;
+            }
+
+            function playHover() {
+                const c = getCtx();
+                const osc = c.createOscillator();
+                const gain = c.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = 600;
+                gain.gain.setValueAtTime(0.08, c.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.08);
+                osc.connect(gain).connect(c.destination);
+                osc.start();
+                osc.stop(c.currentTime + 0.08);
+            }
+
+            function playClick() {
+                const c = getCtx();
+                const osc = c.createOscillator();
+                const gain = c.createGain();
+                osc.type = 'square';
+                osc.frequency.value = 200;
+                osc.frequency.exponentialRampToValueAtTime(80, c.currentTime + 0.06);
+                gain.gain.setValueAtTime(0.1, c.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.08);
+                osc.connect(gain).connect(c.destination);
+                osc.start();
+                osc.stop(c.currentTime + 0.08);
+            }
+
+            document.addEventListener('mouseover', e => {
+                const link = e.target.closest('nav a');
+                if (link) playHover();
+            });
+
+            document.addEventListener('click', e => {
+                const link = e.target.closest('nav a');
+                if (link) playClick();
+            });
+        })();
+    </script>
+
 </body>
 
 </html>
