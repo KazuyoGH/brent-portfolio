@@ -1,4 +1,32 @@
 // js/main.js
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileLinks = mobileMenu.querySelectorAll('a');
+
+function toggleMenu() {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+
+hamburger.addEventListener('click', toggleMenu);
+
+mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        document.body.style.overflow = '';
+    });
+});
+
+mobileMenu.addEventListener('click', e => {
+    if (e.target === mobileMenu) {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+});
+
 
 const fromInternalNav = sessionStorage.getItem('internalNav') === 'true';
 if (fromInternalNav) {
