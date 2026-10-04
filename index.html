@@ -162,28 +162,23 @@
     </script>
 
     <script>
-        document.addEventListener('mouseover', e => {
+        document.addEventListener('mouseenter', e => {
             const link = e.target.closest('nav a, .pill-btn');
-            if (link && !link.dataset.hoverInit) {
-                link.dataset.hoverInit = 'true';
-                const audio = new Audio('sounds/hover.mp3');
-                audio.volume = 0.3;
-                link.addEventListener('mouseenter', () => {
-                    audio.currentTime = 0;
-                    audio.play();
-                });
-            }
-        });
+            if (!link) return;
+            const audio = new Audio('sounds/hover.mp3');
+            audio.volume = 0.3;
+            audio.play().catch(() => { });
+        }, true);
 
         document.addEventListener('click', e => {
             const link = e.target.closest('nav a, .pill-btn');
-            if (link) {
-                const audio = new Audio('sounds/click.mp3');
-                audio.volume = 0.4;
-                audio.play();
-            }
+            if (!link) return;
+            const audio = new Audio('sounds/click.mp3');
+            audio.volume = 0.4;
+            audio.play().catch(() => { });
         });
     </script>
+
 
 </body>
 
