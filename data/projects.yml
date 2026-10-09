@@ -1,8 +1,8 @@
 - slug: awesome-project-1
   title: "The Awesome Project"
   subtitle: "A Design Development Identity"
-  thumbnail: "images/project-1.webp"
-  cover_image: "images/project-1.webp"
+  thumbnail: "images/about.webp"
+  cover_image: "images/about.webp"
   tags:
     - Branding
     - Marketing
@@ -10,7 +10,7 @@
   description: |
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam a turpis eget purus commodo congue quis id erat. Curabitur consectetur maximus dapibus. Integer sem lectus, placerat vel augue nec, dignissim mollis nisl.
 
-    images/project-1.webp
+    images/about.webp
 
     Proin aliquam justo sit amet rutrum interdum. Curabitur in augue vel tellus ultricies cursus id in velit. Nam tincidunt, lorem vitae molestie ornare, lacus orci commodo magna.
 
